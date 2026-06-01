@@ -17,12 +17,12 @@ The structure of the `find` command is as follows:
 
 ## Info
 
-<details>
--help, --help
-<details open>Prints a overview of find usage options and syntax, and then exits</details>
+<details> \
+$\color{cyan}{\text{-help, --help}}$ \
+Prints a overview of find usage options and syntax, and then exits.
 
--version, --version
-<details open>Prints the find version information, and then exits</details>
+$\color{cyan}{\text{-version, --version}}$ \
+Prints the find version information, and then exits.
 
 <details>
 
@@ -37,24 +37,24 @@ Although this is rather minor, I've decided to place them in their own category 
 
 ## Link Options
 
-<details>
+<details> \
 Controls the treatment of symbolic links. (If more than one option is specified, the last one specified will take effect)
 
--P (Default)
+$\color{cyan}{\text{-P}}$ (Default)
 <details>
 <summary>Never Dereference Symbolic Links</summary>
 
 When `find` encounters a symbolic link, it will only examine the symbolic link itself and not whatever file it points to.
 </details>
 
--L
+$\color{cyan}{\text{-L}}$
 <details>
 <summary>Dereference Symbolic Links Where Possible</summary>
 
 If `find` encounters a symbolic link, it will examine the target of the symbolic link unless the symbolic link is broken, in which case it will then examine the symbolic link.
 </details>
 
--H
+$\color{cyan}{\text{-H}}$
 <details>
 <summary>Do Not Dereference Symbolic Links, except if they are given as command line arguments</summary>
 
@@ -65,6 +65,8 @@ If `find` encounters a symbolic link, it will function identically as the -P opt
 
 ## Debug Options
 
+$\color{cyan}{\text{-D \emph{options}}}$
+
 <details>
 
 Prints diagnostic information to help troubleshoot the behaviour of the `find` command. Run `find -D help` to see a complete list of valid debug options, or consult the official documentation.
@@ -72,6 +74,8 @@ Prints diagnostic information to help troubleshoot the behaviour of the `find` c
 </details>
 
 ## Optimisation
+
+$\color{cyan}{\text{-O\emph{level}}}$
 
 <details>
 
