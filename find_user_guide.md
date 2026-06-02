@@ -21,19 +21,23 @@ The structure of the `find` command is as follows:
 <summary>Getting Help and Version Information</summary>
 <br>
 
+<div style="padding-left: 20px;">
 $\color{cyan}{\text{-help, --help}}$ <br>
 Prints a overview of find usage options and syntax, and then exits.
 
 $\color{cyan}{\text{-version, --version}}$ <br>
 Prints the find version information, and then exits.
+</div>
 
 <details>
 <summary>Why this is different than the official documentation</summary>
 <br>
 
+<div style="padding-left: 20px;">
 In the official GNU documentation, `--help` and `--version` options are placed under the *GLOBAL OPTIONS* category, however I feel this obscures the purpose of the global options and their place in the syntax of `find` commands. Unlike other global options, these options can be placed anywhere in a command and they will execute first and exit without a warning message before any other part of the command can execute.
 
 Although this is rather minor, I've decided to place them in their own category where they can stand alone, as opposed to the other global options that are particular about their place in the syntax and which will print warning messages if they are not before the first test, positional option or action.
+</div>
 
 </details>
 </details>
@@ -51,7 +55,10 @@ $\color{cyan}{\text{-P}}$ (Default)
 <summary>Never Dereference Symbolic Links</summary>
 <br>
 
+<div style="padding-left: 20px;">
 When `find` encounters a symbolic link, it will only examine the symbolic link itself and not whatever file it points to.
+</div>
+
 </details>
 
 $\color{cyan}{\text{-L}}$
@@ -59,7 +66,10 @@ $\color{cyan}{\text{-L}}$
 <summary>Dereference Symbolic Links Where Possible</summary>
 <br>
 
+<div style="padding-left: 20px;">
 If `find` encounters a symbolic link, it will examine the target of the symbolic link unless the symbolic link is broken, in which case it will then examine the symbolic link.
+</div>
+
 </details>
 
 $\color{cyan}{\text{-H}}$
@@ -67,7 +77,9 @@ $\color{cyan}{\text{-H}}$
 <summary>Do Not Dereference Symbolic Links, except if they are given as command line arguments</summary>
 <br>
 
+<div style="padding-left: 20px;">
 If `find` encounters a symbolic link, it will function identically as the -P option, unless that symbolic link is given as one of the *Starting Points* on the command line, or it is in the starting point file following the `-files0-from` *Global Option*. In these cases where a symbolic link is given as a command line argument, it is dereferenced (where possible) and the target of the symbolic link will be examined instead (as in the -L option).
+</div>
 
 </details>
 </details>
@@ -78,7 +90,9 @@ $\color{cyan}{\text{-D \emph{options}}}$
 <details>
 <br>
 
+<div style="padding-left: 20px;">
 Prints diagnostic information to help troubleshoot the behaviour of the `find` command. Run `find -D help` to see a complete list of valid debug options, or consult the official documentation.
+</div>
 
 </details>
 
@@ -88,7 +102,9 @@ $\color{cyan}{\text{-O\emph{level}}}$
 <details>
 <br>
 
+<div style="padding-left: 20px;">
 Enables query optimisation, specified using `-O*level*` , where *level* can be a value from 0 to 3 inclusive. Opimisation is outside the scope of this guide and users should refer to the official documentation for further details.
+</div>
 
 </details>
 
@@ -98,11 +114,13 @@ Enables query optimisation, specified using `-O*level*` , where *level* can be a
 <summary>Root of the Directory Tree to search. If no starting point is specified, the current working directory '.' is used by default.</summary>
 <br>
 
+<div style="padding-left: 20px;">
 Given a directory, `find` will evaluate the given expression from left to right for every file it encounters using short-circuit evaluation, after which it will move on to the next file. 
 
 Multiple directories can be listed so long as they are listed before the first expression argument (`find` reads until it encounters a '-' to determine the start of the expression). However, if using wildcard globbing to give starting point arguments and a file happens to begin with '-', then `find` may mistakenly take that file name as an expression argument. Therefore it is safer to prefix wildcards with './' or use absolute path names.
 
 Alternatively, instead of listing directories as command arguments, a ASCII NUL separated list of starting points can be given using `-files0-from {file | -}`. If giving a filename, the file must contain a list separated by single ASCII NUL characters, else it will terminate with an error. If giving '-' as an argument, `find` will read the list of starting points from `stdin`.
+</div>
 
 </details>
 
@@ -112,6 +130,7 @@ Alternatively, instead of listing directories as command arguments, a ASCII NUL 
 <summary>Options that affect the operation of all tests and actions specified on any part of the command line, and as such should be specified directly after the list of starting points. Global options placed elsewhere will issue a warning message.</summary>
 <br>
 
+<div style="padding-left: 20px;">
 $\color{cyan}{\text{-d | -depth}}$ <br>
 Processes a directory's contents before the directory itself. Effectively performing depth-first-search on a given directory structure.
 
@@ -139,9 +158,13 @@ $\color{cyan}{\text{-noleaf}}$
 <summary>Necessary Option for Non-Unix-like Filesystems (CD-ROM, MS-DOS, AFS, etc.)</summary>
 <br>
 
+<div style="padding-left: 20px;">
 On Unix filesystems, each directory has 2 + N number of hard links to it (where N is the number of immediate subdirectories). A directory with no subdirectories has only 2 hard links (1. its own name inside its parent directory, 2. the inner '.' directory that references itself.) Normally, `find` optimizes its search such that when it has called `stat()` on 'A' number of subdirectories (where 'A' is a directory's number of hard links - 2), then it assumes that the remaining entries are *not* directories, significantly speeding up execution when metadata is not needed.
 
 On filesystems that do follow this convention this option is required, otherwise `find` may skip over some subdirectories.
+</div>
+</div>
+
 </details>
 </details>
 
