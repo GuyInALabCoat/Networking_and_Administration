@@ -19,17 +19,17 @@ The structure of the `find` command is as follows:
 
 <details> 
 <summary>Getting Help and Version Information</summary>
+<br>
 
-\
-$\color{cyan}{\text{-help, --help}}$ \
+$\color{cyan}{\text{-help, --help}}$ <br>
 Prints a overview of find usage options and syntax, and then exits.
-\
-\
-$\color{cyan}{\text{-version, --version}}$ \
+
+$\color{cyan}{\text{-version, --version}}$ <br>
 Prints the find version information, and then exits.
 
 <details>
 <summary>Why this is different than the official documentation</summary>
+<br>
 
 In the official GNU documentation, `--help` and `--version` options are placed under the *GLOBAL OPTIONS* category, however I feel this obscures the purpose of the global options and their place in the syntax of `find` commands. Unlike other global options, these options can be placed anywhere in a command and they will execute first and exit without a warning message before any other part of the command can execute.
 
@@ -38,34 +38,34 @@ Although this is rather minor, I've decided to place them in their own category 
 </details>
 </details>
 
-According to the official documentation, *Link Options*, *Debug Options*, and *Optimisation* are listed together under *OPTIONS* although they are listed separately in the synopsis example.
+Under the official documentation, *Link Options*, *Debug Options*, and *Optimisation* are listed together under *OPTIONS*.
 
 ## Link Options
 
 <details> 
 <summary>Controls the treatment of symbolic links. (If more than one option is specified, the last one specified will take effect)</summary>
+<br>
 
-\
 $\color{cyan}{\text{-P}}$ (Default)
-
 <details>
 <summary>Never Dereference Symbolic Links</summary>
+<br>
 
 When `find` encounters a symbolic link, it will only examine the symbolic link itself and not whatever file it points to.
 </details>
 
 $\color{cyan}{\text{-L}}$
-
 <details>
 <summary>Dereference Symbolic Links Where Possible</summary>
+<br>
 
 If `find` encounters a symbolic link, it will examine the target of the symbolic link unless the symbolic link is broken, in which case it will then examine the symbolic link.
 </details>
 
 $\color{cyan}{\text{-H}}$
-
 <details>
 <summary>Do Not Dereference Symbolic Links, except if they are given as command line arguments</summary>
+<br>
 
 If `find` encounters a symbolic link, it will function identically as the -P option, unless that symbolic link is given as one of the *Starting Points* on the command line, or it is in the starting point file following the `-files0-from` *Global Option*. In these cases where a symbolic link is given as a command line argument, it is dereferenced (where possible) and the target of the symbolic link will be examined instead (as in the -L option).
 
@@ -75,8 +75,8 @@ If `find` encounters a symbolic link, it will function identically as the -P opt
 ## Debug Options
 
 $\color{cyan}{\text{-D \emph{options}}}$
-
 <details>
+<br>
 
 Prints diagnostic information to help troubleshoot the behaviour of the `find` command. Run `find -D help` to see a complete list of valid debug options, or consult the official documentation.
 
@@ -85,8 +85,8 @@ Prints diagnostic information to help troubleshoot the behaviour of the `find` c
 ## Optimisation
 
 $\color{cyan}{\text{-O\emph{level}}}$
-
 <details>
+<br>
 
 Enables query optimisation, specified using `-O*level*` , where *level* can be a value from 0 to 3 inclusive. Opimisation is outside the scope of this guide and users should refer to the official documentation for further details.
 
@@ -96,6 +96,7 @@ Enables query optimisation, specified using `-O*level*` , where *level* can be a
 
 <details>
 <summary>Root of the Directory Tree to search. If no starting point is specified, the current working directory '.' is used by default.</summary>
+<br>
 
 Given a directory, `find` will evaluate the given expression from left to right for every file it encounters using short-circuit evaluation, after which it will move on to the next file. 
 
@@ -109,41 +110,41 @@ Alternatively, instead of listing directories as command arguments, a ASCII NUL 
 
 <details>
 <summary>Options that affect the operation of all tests and actions specified on any part of the command line, and as such should be specified directly after the list of starting points. Global options placed elsewhere will issue a warning message.</summary>
+<br>
 
-$\color{cyan}{\text{-d | -depth}}$
+$\color{cyan}{\text{-d | -depth}}$ <br>
 Processes a directory's contents before the directory itself. Effectively performing depth-first-search on a given directory structure.
 
-$\color{cyan}{\text{-mount | -xdev}}$
+$\color{cyan}{\text{-mount | -xdev}}$ <br>
 Don't descend into directories on other filesystem. Both `-mount` and `-xdev` are equivalent.
 
-$\color{cyan}{\text{-middepth \emph{levels}}}$
+$\color{cyan}{\text{-middepth \emph{levels}}}$ <br>
 Do not apply any tests or actions for any files *above* a certain depth (level, integer >= 0). Using `-mindepth 1` evaluates all files except the list of starting points.
 
-$\color{cyan}{\text{-maxdepth \emph{levels}}}$
+$\color{cyan}{\text{-maxdepth \emph{levels}}}$ <br>
 Limits the depth (level, integer >= 0) to which `find` will descend within each starting point. Using `-maxdepth 0` means tests and actions will be applied only to the starting points themselves.
 
-$\color{cyan}{\text{-ignore_readdir_race}}$
+$\color{cyan}{\text{-ignore\_readdir\_race}}$ <br>
 To read from a directory `find` issues a system call to the kernel using `readdir()` (or modern `getdents()`) which returns the basename of all the directory entries. To obtain each file's metadata, it then calls `stat()` on each filename. 
 
 Normally, if this `stat()` call fails (i.e., if a file is deleted between these two system calls) an error message will be printed. However with this option enabled, *no error message will be issued*. 
 
 This option is useful when examining filesystem directories that change frequently (i.e., mail queues, temporary directories, etc.)
 
-$\color{cyan}{\text{-noignore_readdir_race (default)}}$
+$\color{cyan}{\text{-noignore\_readdir\_race (default)}}$ <br>
 Reverses the effect of the `-ignore_readdir_race` option.
 
-$\color{cyan}{\text{-noleaf)}}$
+$\color{cyan}{\text{-noleaf}}$
 <details>
 <summary>Necessary Option for Non-Unix-like Filesystems (CD-ROM, MS-DOS, AFS, etc.)</summary>
+<br>
 
 On Unix filesystems, each directory has 2 + N number of hard links to it (where N is the number of immediate subdirectories). A directory with no subdirectories has only 2 hard links (1. its own name inside its parent directory, 2. the inner '.' directory that references itself.) Normally, `find` optimizes its search such that when it has called `stat()` on 'A' number of subdirectories (where 'A' is a directory's number of hard links - 2), then it assumes that the remaining entries are *not* directories, significantly speeding up execution when metadata is not needed.
 
 On filesystems that do follow this convention this option is required, otherwise `find` may skip over some subdirectories.
 </details>
-<details>
-<summary></summary>
 </details>
-</details>
+
 ### Copyright
 Copyright © 2026 Dmytro Politov \
 Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Document License, Version 3 or any later version published by the Free Software Foundation. [GNU General Pulic License](https://www.gnu.org/licenses/gpl-3.0.html)
