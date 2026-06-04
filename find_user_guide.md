@@ -18,30 +18,36 @@ The structure of the `find` command is as follows:
 ## Info
 
 <details> 
-<summary>Getting Help and Version Information</summary>
-<br>
+    <summary>Getting Help and Version Information</summary>
+    <br>
+    <blockquote>
+    
+        $\color{cyan}{\text{-help, --help}}$ <br>
+        Prints a overview of find usage options and syntax, and then exits.
+    
+    </blockquote>
 
-<div style="padding-left: 20px;">
+    <blockquote>
+    
+        $\color{cyan}{\text{-version, --version}}$ <br>
+        Prints the find version information, and then exits.
+    
+    </blockquote>
 
-$\color{cyan}{\text{-help, --help}}$ <br>
-Prints a overview of find usage options and syntax, and then exits.
 
-$\color{cyan}{\text{-version, --version}}$ <br>
-Prints the find version information, and then exits.
-</div>
+    <details>
+        <summary>Why this is different than the official documentation</summary>
+        <br>
 
-<details>
-<summary>Why this is different than the official documentation</summary>
-<br>
+        <blockquote>
 
-<div style="padding-left: 20px;">
+            In the official GNU documentation, `--help` and `--version` options are placed under the *GLOBAL OPTIONS*  category, however I feel this obscures the purpose of the global options and their place in the syntax of `find` commands. Unlike other global options, these options can be placed anywhere in a command and they will execute first and exit without a warning message before any other part of the command can execute.
 
-In the official GNU documentation, `--help` and `--version` options are placed under the *GLOBAL OPTIONS* category, however I feel this obscures the purpose of the global options and their place in the syntax of `find` commands. Unlike other global options, these options can be placed anywhere in a command and they will execute first and exit without a warning message before any other part of the command can execute.
+            Although this is rather minor, I've decided to place them in their own category where they can stand alone, as opposed to the other global options that are particular about their place in the syntax and which will print warning messages if they are not before the first test, positional option or action.
+        
+        </blockquote>
 
-Although this is rather minor, I've decided to place them in their own category where they can stand alone, as opposed to the other global options that are particular about their place in the syntax and which will print warning messages if they are not before the first test, positional option or action.
-</div>
-
-</details>
+    </details>
 </details>
 
 Under the official documentation, *Link Options*, *Debug Options*, and *Optimisation* are listed together under *OPTIONS*.
@@ -49,44 +55,63 @@ Under the official documentation, *Link Options*, *Debug Options*, and *Optimisa
 ## Link Options
 
 <details> 
-<summary>Controls the treatment of symbolic links. (If more than one option is specified, the last one specified will take effect)</summary>
-<br>
+    <summary>Controls the treatment of symbolic links. (If more than one option is specified, the last one specified will take effect)</summary>
+    <br>
 
-$\color{cyan}{\text{-P}}$ (Default)
-<details>
-<summary>Never Dereference Symbolic Links</summary>
-<br>
+    <blockquote>
+    
+        $\color{cyan}{\text{-P}}$ (Default)
+    
+        <details>
+            <summary>Never Dereference Symbolic Links</summary>
+            <br>
 
-<div style="padding-left: 20px;">
+            <blockquote>
 
-When `find` encounters a symbolic link, it will only examine the symbolic link itself and not whatever file it points to.
-</div>
+                When `find` encounters a symbolic link, it will only examine the symbolic link itself and not whatever file it points to.
+                
+            </blockquote>
 
-</details>
+        </details>
+        
+    </blockquote>
 
-$\color{cyan}{\text{-L}}$
-<details>
-<summary>Dereference Symbolic Links Where Possible</summary>
-<br>
+    <blockquote>
 
-<div style="padding-left: 20px;">
+        $\color{cyan}{\text{-L}}$
 
-If `find` encounters a symbolic link, it will examine the target of the symbolic link unless the symbolic link is broken, in which case it will then examine the symbolic link.
-</div>
+        <details>
+            <summary>Dereference Symbolic Links Where Possible</summary>
+            <br>
 
-</details>
+            <blockquote>
 
-$\color{cyan}{\text{-H}}$
-<details>
-<summary>Do Not Dereference Symbolic Links, except if they are given as command line arguments</summary>
-<br>
+                If `find` encounters a symbolic link, it will examine the target of the symbolic link unless the symbolic link is broken, in which case it will then examine the symbolic link.
+                
+            </blockquote>
 
-<div style="padding-left: 20px;">
+        </details>
+        
+    </blockquote>
 
-If `find` encounters a symbolic link, it will function identically as the -P option, unless that symbolic link is given as one of the *Starting Points* on the command line, or it is in the starting point file following the `-files0-from` *Global Option*. In these cases where a symbolic link is given as a command line argument, it is dereferenced (where possible) and the target of the symbolic link will be examined instead (as in the -L option).
-</div>
+    <blockquote>
+    
+        $\color{cyan}{\text{-H}}$
+        
+        <details>
+            <summary>Do Not Dereference Symbolic Links, except if they are given as command line arguments</summary>
+            <br>
 
-</details>
+            <blockquote>
+
+                If `find` encounters a symbolic link, it will function identically as the -P option, unless that symbolic link is given as one of the *Starting Points* on the command line, or it is in the starting point file following the `-files0-from` *Global Option*. In these cases where a symbolic link is given as a command line argument, it is dereferenced (where possible) and the target of the symbolic link will be examined instead (as in the -L option).
+                
+            </blockquote>
+
+        </details>
+
+    </blockquote>
+    
 </details>
 
 ## Debug Options
