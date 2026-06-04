@@ -120,7 +120,7 @@ $\color{cyan}{\text{-O\emph{level}}}$
 <details>
     <summary>Options that affect the operation of all tests and actions specified on any part of the command line, and as such should be specified directly after the list of starting points. Global options placed elsewhere will issue a warning message.</summary>
     <br>
-    $\color{cyan}{\text{-d | -depth}}$ 
+    $\color{cyan}{\text{-depth}}$ 
     <blockquote>
         Processes a directory's contents before the directory itself. Effectively performing depth-first-search on a given directory structure.
     </blockquote>
@@ -157,10 +157,72 @@ $\color{cyan}{\text{-O\emph{level}}}$
     <details>
         <summary>Necessary Option for Non-Unix-like Filesystems (CD-ROM, MS-DOS, AFS, etc.)</summary>
         <blockquote>
-            On Unix filesystems, each directory has 2 + N number of hard links to it (where N is the number of immediate subdirectories). A directory with no subdirectories has only 2 hard links (1. its own name inside its parent directory, 2. the inner '.' directory that references itself.) Normally, <code>find</code> optimizes its search such that when it has called <code>stat()</code> on 'A' number of subdirectories (where 'A' is a directory's number of hard links - 2), then it assumes that the remaining entries are <em>not</em> directories, significantly speeding up execution when metadata is not needed.
+            On Unix filesystems, each directory has 2 + N number of hard links to it (where N is the number of immediate subdirectories). A directory with no subdirectories has only 2 hard links: 
+            <ol>
+                <li>its own name inside its parent directory.</li>
+                <li>the inner '.' directory that references itself.</li>
+            </ol> 
+            Normally, <code>find</code> optimizes its search such that when it has called <code>stat()</code> on 'A' number of subdirectories (where 'A' is a directory's number of hard links - 2), then it assumes that the remaining entries are <em>not</em> directories, significantly speeding up execution when metadata is not needed.
             <br>
             <br>
             On filesystems that do follow this convention this option is required, otherwise <code>find</code> may skip over some subdirectories.
+        </blockquote>
+    </details>
+</details>
+
+### Positional Options
+
+In the official documentation, there are a few *Positional Options* that rather than affecting the whole command, affect only the parts of the command that follow them. One is deprecated, and therefore will not be mentioned here. Two others affect only the tests that follow them, and therefore I feel it is best to mention them in the context of the tests they modify. 
+
+The two special outliers among these options are $\color{cyan}{\text{-warn (default), -nowarn}}$ 
+
+These toggle warning messages that occur in a few specific circumstances:
+- Using the deprecated Global Option $\color{cyan}{\text{-d}}$ for depth-first-search instead of $\color{cyan}{\text{-depth}}$.
+- Specifying a Global Option elsewhere than directly after the list of starting points; for example after a test or action later on the command line.
+- Using the $\color{cyan}{\text{-name}}}$ or $\color{cyan}{\text{-iname}}$ test with a '/' in the pattern as both these options match against a file's basename which cannot contain a '/' character. The only exception to this rule is the basename of the root directory itself.
+
+Any other warnings represent critical errors and therefore cannot be turned off.
+
+## Tests | Actions
+
+These form the core of the `find` utility expressions and define how files are matched, and what actions are performed on each matched file. Through the use of logical operators, longer and more complex expressions can be created by chaining together individual tests or actions.
+
+Logical expressions are evaluated from left to right, grouped by operator precedence (see section *OPERATORS*) and evaluated using short-circuit evaluation
+
+### Tests
+
+When evaluating a file within a starting-point directory, return a true or false value according to the result of the test criteria.
+
+To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cyan}{\text{-prune}}$. (See *Actions* section for more details)
+
+#### File Name Matching
+
+<details>
+    <summary>Matches files based on their basename, or relative path name</summary>
+    <br>
+    Except when explicitly matching files using Regular Expressions (using $\color{cyan}{\text{-regex}}$ or $\color{cyan}{\text{-iregex}}$), all matching is done using <i>shell patterns</i>. A shell pattern is a string that may contain regular characters alongside the following <i>wildcard characters</i> and as such it must be surrounded by quotes ' or ", in order to prevent the shell itself from expanding those characters.
+    | --- | --- |
+    | * | Matches any characters zero or more times |
+    | ? | Matches any single character |
+    | [...] | Matches any one of the characters enclosed within the brackets. Inclusive character ranges can be given with a hyphen between the first and last character that will match any character within those ranges. If the first character is '!' or '^' then it will match any character except those in the range. |
+    | [:class:] | Matches any character that belongs to that class. Valid classes include: alnum, alpha, ascii, blank, cntrl, digit, graph, lower, print, punct, space, upper, word, and xdigit |
+    | \ | Removes the special meaning of the character that follows it, allowing it to be interpreted as it is.
+    <details>
+        <summary>Basename</summary>
+        <br>
+        <blockquote>
+            $\color{cyan}{\text{-name \emph{pattern}, -iname \emph{pattern}}}$ 
+            <br>
+            Returns true if the basename of the file matches the pattern. $\color{cyan}{\text{-iname}}$ matches in a case-insensitive manner. 
+        </blockquote>
+    </details>
+    <details>
+        <summary>Relative Path Name</summary>
+        <br>
+        <blockquote>
+            $\color{cyan}{\text{-path \emph{pattern}, -wholename \emph{pattern}, -ipath \emph{pattern}, -iwholename \emph{pattern}}}$
+            <br>
+            Returns true if the relative path name beginning from the starting point directory to the basename of the file matches the given pattern. As no file basename ends with a '/', any pattern ending in a '/' will not match anything. $\color{cyan}{\text{-path}}$ and $\color{cyan}{\text{-wholename}}$ are synonyms, and likewise $\color{cyan}{\text{-ipath}}$ and $\color{cyan}{\text{-iwholename}}$ match in a case-insensitive manner.    
         </blockquote>
     </details>
 </details>
