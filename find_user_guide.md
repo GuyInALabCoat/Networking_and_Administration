@@ -44,7 +44,7 @@ Under the official documentation, *Link Options*, *Debug Options*, and *Optimisa
 
 ## Link Options
 
-<details> 
+<details>
     <summary>Controls the treatment of symbolic links. (If more than one option is specified, the last one specified will take effect)</summary>
     <br>
     <blockquote>
@@ -73,7 +73,7 @@ Under the official documentation, *Link Options*, *Debug Options*, and *Optimisa
             <summary>Do Not Dereference Symbolic Links, except if they are given as command line arguments</summary>
             <br>
             <blockquote>
-                If <code>find</code> encounters a symbolic link, it will function identically as the -P option, unless that symbolic link is given as one of the $\color{red}{\text{\emph{Starting -Points}}}$ on the command line, or it is in the starting point file following the <code>-files0-from</code> $\color{red}{\text{\emph{Global Option}}}$. In these cases where a symbolic link is given as a command line argument, it is dereferenced (where possible) and the target of the symbolic link will be examined instead (as in the -L option).
+                If <code>find</code> encounters a symbolic link, it will function identically as the $\color{cyan}{\text{-P}}$ option, unless that symbolic link is given as one of the $\color{red}{\text{\emph{Starting-Points}}}$ on the command line, or it is in the starting point file following the <code>-files0-from</code> $\color{red}{\text{\emph{Global Option}}}$. In these cases where a symbolic link is given as a command line argument, it is dereferenced (where possible) and the target of the symbolic link will be examined instead (as in the $\color{cyan}{\text{-L}}$ option).
             </blockquote>
         </details>
     </blockquote>
@@ -95,7 +95,7 @@ $\color{cyan}{\text{-O\emph{level}}}$
 <details>
 <br>
     <blockquote>
-    Enables query optimisation, specified using <code>-O</code><i>level</i> , where <i>level</i> can be a value from 0 to 3 inclusive. Opimisation is outside the scope of this guide and users should refer to the official documentation for further details.
+    Enables query optimisation, specified using <code>-O<i>level</i></code> , where <i>level</i> can be a value from 0 to 3 inclusive. Opimisation is outside the scope of this guide and users should refer to the official documentation for further details.
     </blockquote>
 </details>
 
@@ -120,46 +120,49 @@ $\color{cyan}{\text{-O\emph{level}}}$
 <details>
     <summary>Options that affect the operation of all tests and actions specified on any part of the command line, and as such should be specified directly after the list of starting points. Global options placed elsewhere will issue a warning message.</summary>
     <br>
+    $\color{cyan}{\text{-d | -depth}}$ 
     <blockquote>
-        $\color{cyan}{\text{-d | -depth}}$ 
-        <br>
         Processes a directory's contents before the directory itself. Effectively performing depth-first-search on a given directory structure.
-        <br>
-        $\color{cyan}{\text{-mount | -xdev}}$ 
-        <br>
-        Don't descend into directories on other filesystem. Both <code>-mount</code> and <code>-xdev</code> are equivalent.
-        <br>
-        $\color{cyan}{\text{-middepth \emph{levels}}}$ 
-        <br>
-        Do not apply any tests or actions for any files <i>above</i> a certain depth (level, integer >= 0). Using <code>-mindepth 1</code> evaluates all files except the list of starting points.
-        <br>
-        $\color{cyan}{\text{-maxdepth \emph{levels}}}$ 
-        <br>
-        Limits the depth (level, integer >= 0) to which <code>find</code> will descend within each starting point. Using <code>-maxdepth 0</code> means tests and actions will be applied only to the starting points themselves.
-        <br>
-        $\color{cyan}{\text{-ignore\_readdir\_race}}$ 
-        <br>
-        To read from a directory <code>find</code> issues a system call to the kernel using <code>readdir()</code> (or modern <code>getdents()</code>) which returns the basename of all the directory entries. To obtain each file's metadata, it then calls <code>stat()</code> on each filename. 
-        <br>
-        Normally, if this <code>stat()</code> call fails (i.e., if a file is deleted between these two system calls) an error message will be printed. However with this option enabled, <em>no error message will be issued</em>. 
-        <br>
-        This option is useful when examining filesystem directories that change frequently (i.e., mail queues, temporary directories, etc.)
-        <br>
-        $\color{cyan}{\text{-noignore\_readdir\_race (default)}}$ 
-        <br>
-        Reverses the effect of the <code>-ignore_readdir_race`</code> option.
     </blockquote>
-    
-$\color{cyan}{\text{-noleaf}}$
-<details>
-    <summary>Necessary Option for Non-Unix-like Filesystems (CD-ROM, MS-DOS, AFS, etc.)</summary>
-    <br>
+    $\color{cyan}{\text{-mount | -xdev}}$ 
     <blockquote>
-        On Unix filesystems, each directory has 2 + N number of hard links to it (where N is the number of immediate subdirectories). A directory with no subdirectories has only 2 hard links (1. its own name inside its parent directory, 2. the inner '.' directory that references itself.) Normally, <code>find</code> optimizes its search such that when it has called <code>stat()</code> on 'A' number of subdirectories (where 'A' is a directory's number of hard links - 2), then it assumes that the remaining entries are <em>not</em> directories, significantly speeding up execution when metadata is not needed.
-        <br>
-        On filesystems that do follow this convention this option is required, otherwise <code>find</code> may skip over some subdirectories.
+        Don't descend into directories on other filesystem. Both <code>-mount</code> and <code>-xdev</code> are equivalent.
     </blockquote>
-</details>
+    $\color{cyan}{\text{-mindepth \emph{levels}}}$ 
+    <blockquote>
+        Do not apply any tests or actions for any files <i>above</i> a certain depth (level, integer >= 0). Using <code>-mindepth 1</code> evaluates all files except the list of starting points.
+    </blockquote>
+    $\color{cyan}{\text{-maxdepth \emph{levels}}}$ 
+    <blockquote>
+        Limits the depth (level, integer >= 0) to which <code>find</code> will descend within each starting point. Using <code>-maxdepth 0</code> means tests and actions will be applied only to the starting points themselves.
+    </blockquote>
+    <details>
+        <summary>Enable or Disable Warnings Caused by Race Conditions. (Useful when examining directories that frequently change)</summary>
+        $\color{cyan}{\text{-ignore\_readdir\_race}}$ 
+        <blockquote>
+            To read from a directory <code>find</code> issues a system call to the kernel using <code>readdir()</code> (or modern <code>getdents()</code>) which returns the basename of all the directory entries. To obtain each file's metadata, it then calls <code>stat()</code> on each filename. 
+            <br>
+            <br>
+            Normally, if this <code>stat()</code> call fails (i.e., if a file is deleted between these two system calls) an error message will be printed. However with this option enabled, <em>no error message will be issued</em>. 
+            <br>
+            <br>
+            This option is useful when examining filesystem directories that change frequently (i.e., mail queues, temporary directories, etc.)
+        </blockquote>
+        $\color{cyan}{\text{-noignore\_readdir\_race (default)}}$ 
+        <blockquote>
+            Reverses the effect of the <code>-ignore_readdir_race`</code> option.
+        </blockquote>
+    </details>
+    $\color{cyan}{\text{-noleaf}}$
+    <details>
+        <summary>Necessary Option for Non-Unix-like Filesystems (CD-ROM, MS-DOS, AFS, etc.)</summary>
+        <blockquote>
+            On Unix filesystems, each directory has 2 + N number of hard links to it (where N is the number of immediate subdirectories). A directory with no subdirectories has only 2 hard links (1. its own name inside its parent directory, 2. the inner '.' directory that references itself.) Normally, <code>find</code> optimizes its search such that when it has called <code>stat()</code> on 'A' number of subdirectories (where 'A' is a directory's number of hard links - 2), then it assumes that the remaining entries are <em>not</em> directories, significantly speeding up execution when metadata is not needed.
+            <br>
+            <br>
+            On filesystems that do follow this convention this option is required, otherwise <code>find</code> may skip over some subdirectories.
+        </blockquote>
+    </details>
 </details>
 
 ### Copyright
