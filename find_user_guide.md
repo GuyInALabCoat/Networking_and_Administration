@@ -229,7 +229,7 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
         <blockquote>
             $\color{cyan}{\text{-name \emph{pattern}}}$
             <br>
-            $\color{cyan}{\text{-iname \emph{pattern}}} 
+            $\color{cyan}{\text{-iname \emph{pattern}}}$ 
             <br>
             Returns true if the basename of the file matches the pattern. $\color{cyan}{\text{-iname}}$ matches in a case-insensitive manner. 
         </blockquote>
@@ -300,11 +300,21 @@ Depending on which *Link Options* (if any) are selected, the files to be examine
         You can also test if a file matches a given inode number using $\color{cyan}{\text{-inum \emph{number}}}$, however it is often easier to use the <code>-samefile</code> option above than this option.
     </blockquote>
     <blockquote>
-        $\color{cyan}{\text{-links $\pm$\emph{number}}}$
+        $\color{cyan}{\text{-links }\pm\text{\emph{number}}}$
         <br>
         Returns true if the file under examination has greater than (+), fewer than (-) or an equal <i>number</i> of hard links to it. 
     </blockquote>
 </details>
+
+#### File Filtering
+
+Allows the filtering of files based on their metadata provided by system calls to `stat()`.
+
+<details>
+    <summary>Time</summary>
+    <br>
+</details>
+
 ### Copyright
 Copyright © 2026 Dmytro Politov \
 Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Document License, Version 3 or any later version published by the Free Software Foundation. [GNU General Pulic License](https://www.gnu.org/licenses/gpl-3.0.html)
