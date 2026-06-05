@@ -150,7 +150,7 @@ $\color{cyan}{\text{-O\emph{level}}}$
         </blockquote>
         $\color{cyan}{\text{-noignore\_readdir\_race (default)}}$ 
         <blockquote>
-            Reverses the effect of the <code>-ignore_readdir_race`</code> option.
+            Reverses the effect of the <code>-ignore_readdir_race</code> option.
         </blockquote>
     </details>
     $\color{cyan}{\text{-noleaf}}$
@@ -179,7 +179,7 @@ The two special outliers among these options are $\color{cyan}{\text{-warn (defa
 These toggle warning messages that occur in a few specific circumstances:
 - Using the deprecated Global Option $\color{cyan}{\text{-d}}$ for depth-first-search instead of $\color{cyan}{\text{-depth}}$.
 - Specifying a Global Option elsewhere than directly after the list of starting points; for example after a test or action later on the command line.
-- Using the $\color{cyan}{\text{-name}}}$ or $\color{cyan}{\text{-iname}}$ test with a '/' in the pattern as both these options match against a file's basename which cannot contain a '/' character. The only exception to this rule is the basename of the root directory itself.
+- Using the $\color{cyan}{\text{-name}}$ or $\color{cyan}{\text{-iname}}$ test with a '/' in the pattern as both these options match against a file's basename which cannot contain a '/' character. The only exception to this rule is the basename of the root directory itself.
 
 Any other warnings represent critical errors and therefore cannot be turned off.
 
@@ -187,7 +187,7 @@ Any other warnings represent critical errors and therefore cannot be turned off.
 
 These form the core of the `find` utility expressions and define how files are matched, and what actions are performed on each matched file. Through the use of logical operators, longer and more complex expressions can be created by chaining together individual tests or actions.
 
-Logical expressions are evaluated from left to right, grouped by operator precedence (see section *OPERATORS*) and evaluated using short-circuit evaluation
+Logical expressions are evaluated from left to right, grouped by operator precedence (see section *OPERATORS*) and evaluated using short-circuit evaluation. Unless another action is used, the <em>default</em> and <em>implicit</em> action $\color{cyan}{\text{-print}}$ is performed on all files for which the whole expression is true. The only action for which this default <code>-print</code> is <i>not</i> disabled, is for $\color{cyan}{\text{-prune}}$.
 
 ### Tests
 
@@ -201,17 +201,35 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
     <summary>Matches files based on their basename, or relative path name</summary>
     <br>
     Except when explicitly matching files using Regular Expressions (using $\color{cyan}{\text{-regex}}$ or $\color{cyan}{\text{-iregex}}$), all matching is done using <i>shell patterns</i>. A shell pattern is a string that may contain regular characters alongside the following <i>wildcard characters</i> and as such it must be surrounded by quotes ' or ", in order to prevent the shell itself from expanding those characters.
-    | --- | --- |
-    | * | Matches any characters zero or more times |
-    | ? | Matches any single character |
-    | [...] | Matches any one of the characters enclosed within the brackets. Inclusive character ranges can be given with a hyphen between the first and last character that will match any character within those ranges. If the first character is '!' or '^' then it will match any character except those in the range. |
-    | [:class:] | Matches any character that belongs to that class. Valid classes include: alnum, alpha, ascii, blank, cntrl, digit, graph, lower, print, punct, space, upper, word, and xdigit |
-    | \ | Removes the special meaning of the character that follows it, allowing it to be interpreted as it is.
+    <table>
+        <tr>
+            <td>*</td>
+            <td>Matches any characters zero or more times</td>
+        </tr>
+        <tr>
+            <td>?</td>
+            <td>Matches any single character</td>
+        </tr>
+        <tr>
+            <td>[...]</td>
+            <td>Matches any one of the characters enclosed within the brackets. Inclusive character ranges can be given with a hyphen between the first and last character that will match any character within those ranges. If the first character is '!' or '^' then it will match any character except those in the range.</td>
+        </tr>
+        <tr>
+            <td>[:class:]</td>
+            <td>Matches any character that belongs to that class. Valid classes include: alnum, alpha, ascii, blank, cntrl, digit, graph, lower, print, punct, space, upper, word, and xdigit.</td>
+        </tr>
+        <tr>
+            <td>\</td>
+            <td>Removes the special meaning of the character that follows it, allowing it to be interpreted as it is.</td>
+        </tr>
+    </table>
     <details>
         <summary>Basename</summary>
         <br>
         <blockquote>
-            $\color{cyan}{\text{-name \emph{pattern}, -iname \emph{pattern}}}$ 
+            $\color{cyan}{\text{-name \emph{pattern}}}$
+            <br>
+            $\color{cyan}{\text{-iname \emph{pattern}}} 
             <br>
             Returns true if the basename of the file matches the pattern. $\color{cyan}{\text{-iname}}$ matches in a case-insensitive manner. 
         </blockquote>
@@ -219,14 +237,74 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
     <details>
         <summary>Relative Path Name</summary>
         <br>
-        <blockquote>
-            $\color{cyan}{\text{-path \emph{pattern}, -wholename \emph{pattern}, -ipath \emph{pattern}, -iwholename \emph{pattern}}}$
+        <details>
+        <summary>Match Relative Path Name using Shell Patterns</summary>
+            <blockquote>
+                $\color{cyan}{\text{-path \emph{pattern}}}$
+                <br>
+                $\color{cyan}{\text{-ipath \emph{pattern}}}$
+                <br>
+                $\color{cyan}{\text{-wholename \emph{pattern}}}$
+                <br>
+                $\color{cyan}{\text{-iwholename \emph{pattern}}}$
+                <br>
+                Returns true if the relative path name beginning from the starting point directory to the basename of the file, matches the given shell pattern. As no file basename ends with a '/', any pattern ending in a '/' will not match anything. $\color{cyan}{\text{-path}}$ and $\color{cyan}{\text{-wholename}}$ are synonyms, and likewise $\color{cyan}{\text{-ipath}}$ and $\color{cyan}{\text{-iwholename}}$ match in a case-insensitive manner.    
+            </blockquote>
+        </details>
+        <details>
+            <summary>Match Relative Path Name using Regular Expressions</summary>
             <br>
-            Returns true if the relative path name beginning from the starting point directory to the basename of the file matches the given pattern. As no file basename ends with a '/', any pattern ending in a '/' will not match anything. $\color{cyan}{\text{-path}}$ and $\color{cyan}{\text{-wholename}}$ are synonyms, and likewise $\color{cyan}{\text{-ipath}}$ and $\color{cyan}{\text{-iwholename}}$ match in a case-insensitive manner.    
-        </blockquote>
+            <blockquote>
+                $\color{cyan}{\text{-regex \emph{expr}}}$
+                <br>
+                $\color{cyan}{\text{-iregex \emph{expr}}}$
+                <br>
+                Returns true if the relative path name beginning from the starting point directory to the file basename, matches the given regular expression. As with $\color{cyan}{\text{-path}}$, a regular expression matching a terminal slash '/' will not match any file. Likewise, $\color{cyan}{\text{-iregex}}$ matches in a case-insensitive manner.
+                <details>
+                    <summary>Changing Regular Expression Syntax</summary>
+                    <br>
+                    <blockquote>
+                        The positional option $\color{cyan}{\text{-regextype \emph{name}}}$ changes the regular expression syntax for all following regular expressions. <code>-regextype emacs</code> is in effect by default, however the other possible arguments include: <code>posix-awk, posix-basic, posix-egrep, posix-extended</code>.
+                    </blockquote>
+                </details>
+            </blockquote>
+        </details>
     </details>
 </details>
 
+#### Link Matching
+
+Depending on which *Link Options* (if any) are selected, the files to be examined may or may not include the symbolic links themselves. Please verify that your intended option is in effect before applying these tests.
+
+<details>
+    <summary>Symbolic Links</summary>
+    <br>
+    <blockquote>
+        $\color{cyan}{\text{-lname \emph{pattern}}}$
+        <br>
+        $\color{cyan}{\text{-ilname \emph{pattern}}}$
+        <br>
+        Returns true if the file under examination is a symbolic link $\color{red}{\text{\emph{AND}}}$ it points to a file who's name matches the given pattern. $\color{cyan}{\text{-ilname}}$ matches the $\color{red}{\text{\emph{target file's}}}$ name (and not name of the link itself) in a case-insensitive manner.
+    </blockquote>
+</details>
+
+<details>
+    <summary>Hard Links</summary>
+    <br>
+    <blockquote>
+        $\color{cyan}{\text{-samefile \emph{name}}}$
+        <br>
+        Returns true if the file under examination is a hard link to the same inode as the given <i>filename</i>. If a hard link is found, then it must be on the same filesystem as the given file.
+        <br>
+        <br>
+        You can also test if a file matches a given inode number using $\color{cyan}{\text{-inum \emph{number}}}$, however it is often easier to use the <code>-samefile</code> option above than this option.
+    </blockquote>
+    <blockquote>
+        $\color{cyan}{\text{-links $\pm$\emph{number}}}$
+        <br>
+        Returns true if the file under examination has greater than (+), fewer than (-) or an equal <i>number</i> of hard links to it. 
+    </blockquote>
+</details>
 ### Copyright
 Copyright © 2026 Dmytro Politov \
 Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Document License, Version 3 or any later version published by the Free Software Foundation. [GNU General Pulic License](https://www.gnu.org/licenses/gpl-3.0.html)
