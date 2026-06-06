@@ -138,6 +138,7 @@ $\color{cyan}{\text{-O\emph{level}}}$
     </blockquote>
     <details>
         <summary>Enable or Disable Warnings Caused by Race Conditions. (Useful when examining directories that frequently change)</summary>
+        <br>
         $\color{cyan}{\text{-ignore\_readdir\_race}}$ 
         <blockquote>
             To read from a directory <code>find</code> issues a system call to the kernel using <code>readdir()</code> (or modern <code>getdents()</code>) which returns the basename of all the directory entries. To obtain each file's metadata, it then calls <code>stat()</code> on each filename. 
@@ -157,6 +158,7 @@ $\color{cyan}{\text{-O\emph{level}}}$
     <details>
         <summary>Necessary Option for Non-Unix-like Filesystems (CD-ROM, MS-DOS, AFS, etc.)</summary>
         <blockquote>
+            <br>
             On Unix filesystems, each directory has 2 + N number of hard links to it (where N is the number of immediate subdirectories). A directory with no subdirectories has only 2 hard links: 
             <ol>
                 <li>its own name inside its parent directory.</li>
@@ -177,7 +179,9 @@ $\color{cyan}{\text{-O\emph{level}}}$
     <br>
         In the official documentation, there are a few *Positional Options* that rather than affecting the whole command, affect only the parts of the command that follow them. One is deprecated, and therefore will not be mentioned here. Two others affect only the tests that follow them, and therefore I feel it is best to mention them in the context of the tests they modify. 
         <br>
+        <br>
         The two special outliers among these options are $\color{cyan}{\text{-warn (default), -nowarn}}$ 
+        <br>
         <br>
         These toggle warning messages that occur in a few specific circumstances:
         <ul>
@@ -206,6 +210,7 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
     <summary>Matches files based on their basename, or relative path name</summary>
     <br>
     Except when explicitly matching files using Regular Expressions (using $\color{cyan}{\text{-regex}}$ or $\color{cyan}{\text{-iregex}}$), all matching is done using <i>shell patterns</i>. A shell pattern is a string that may contain regular characters alongside the following <i>wildcard characters</i> and as such it must be surrounded by quotes ' or ", in order to prevent the shell itself from expanding those characters.
+    <br>
     <table>
         <tr>
             <td>*</td>
@@ -358,9 +363,10 @@ Allows the filtering of files based on their metadata.
 <details>
     <summary>Comparing Timestamps</summary>
     <br>
-    $\color{cyan}{\text{-newer[X][Y] \emph{reference_file}}}$
+    $\color{cyan}{\text{-newer[X][Y] \emph{reference\_file}}}$
     <br>
     Return true if timestamp 'X' of the file under examination is newer than timestamp 'Y' of the reference file, and returns false if timestamp 'X' is as old or older than than timestamp 'Y'.
+    <br>
     <br>
     'X' and 'Y' must be any of the following letters, and the letters determine which timestamp they refer to:
     <ul>
@@ -371,11 +377,11 @@ Allows the filtering of files based on their metadata.
     <details>
         <summary>Shortcuts commands to compare (access, change, or modification) time of the current file with the last modification time of the reference file</summary>
         <br>
-        $\color{cyan}{\text{-anewer \emph{reference_file}}}$ is equivalent to $\color{cyan}{\text{-neweram}}$
+        $\color{cyan}{\text{-anewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-neweram}}$
         <br>
-        $\color{cyan}{\text{-cnewer \emph{reference_file}}}$ is equivalent to $\color{cyan}{\text{-newercm}}$
+        $\color{cyan}{\text{-cnewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newercm}}$
         <br>
-        $\color{cyan}{\text{-newer \emph{reference_file}}}$ is equivalent to $\color{cyan}{\text{-newermm}}$
+        $\color{cyan}{\text{-newer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newermm}}$
         <br>
     </details>
     <details>
