@@ -172,16 +172,21 @@ $\color{cyan}{\text{-O\emph{level}}}$
 
 ### Positional Options
 
-In the official documentation, there are a few *Positional Options* that rather than affecting the whole command, affect only the parts of the command that follow them. One is deprecated, and therefore will not be mentioned here. Two others affect only the tests that follow them, and therefore I feel it is best to mention them in the context of the tests they modify. 
-
-The two special outliers among these options are $\color{cyan}{\text{-warn (default), -nowarn}}$ 
-
-These toggle warning messages that occur in a few specific circumstances:
-- Using the deprecated Global Option $\color{cyan}{\text{-d}}$ for depth-first-search instead of $\color{cyan}{\text{-depth}}$.
-- Specifying a Global Option elsewhere than directly after the list of starting points; for example after a test or action later on the command line.
-- Using the $\color{cyan}{\text{-name}}$ or $\color{cyan}{\text{-iname}}$ test with a '/' in the pattern as both these options match against a file's basename which cannot contain a '/' character. The only exception to this rule is the basename of the root directory itself.
-
-Any other warnings represent critical errors and therefore cannot be turned off.
+<details>
+    <summary>Toggle warning messages</summary>
+    <br>
+        In the official documentation, there are a few *Positional Options* that rather than affecting the whole command, affect only the parts of the command that follow them. One is deprecated, and therefore will not be mentioned here. Two others affect only the tests that follow them, and therefore I feel it is best to mention them in the context of the tests they modify. 
+        <br>
+        The two special outliers among these options are $\color{cyan}{\text{-warn (default), -nowarn}}$ 
+        <br>
+        These toggle warning messages that occur in a few specific circumstances:
+        <ul>
+            <li>Using the deprecated Global Option $\color{cyan}{\text{-d}}$ for depth-first-search instead of $\color{cyan}{\text{-depth}}$.</li>
+            <li>Specifying a Global Option elsewhere than directly after the list of starting points; for example after a test or action later on the command line.</li>
+            <li>Using the $\color{cyan}{\text{-name}}$ or $\color{cyan}{\text{-iname}}$ test with a '/' in the pattern as both these options match against a file's basename which cannot contain a '/' character. The only exception to this rule is the basename of the root directory itself.</li>
+        </ul>
+        Any other warnings represent critical errors and therefore cannot be turned off.
+</details>
 
 ## Tests | Actions
 
@@ -308,11 +313,76 @@ Depending on which *Link Options* (if any) are selected, the files to be examine
 
 #### File Filtering
 
-Allows the filtering of files based on their metadata provided by system calls to `stat()`.
+Allows the filtering of files based on their metadata.
 
 <details>
     <summary>Time</summary>
     <br>
+    Each file records the time whenever the following operations are performed on the file:
+    <ul>
+        <li>access (a): The file's contents are read</li>
+        <li>change (c): The file's metadata or attributes are changed</li>
+        <li>modify (m): The file's contents are changed (and as a consequence, so too is its metadata)</li>
+    </ul>
+    <blockquote>
+        Options that accept numbers as arguments can also accept ranges using $\color{cyan}{\pm\text{\emph{number}}}$ to indicate times that are older (+) or newer (-) than a given <i>number</i> of days/minutes. Integer and decimal numbers are accepted, however for decimals the decimal component is truncated, effectively evaluating the floor of any given decimal number (e.g., +0.98 would be truncated to +0 days/minutes).
+    </blockquote>
+    <details>
+        <summary>Minutes</summary>
+        <br>
+        <blockquote>
+            $\color{cyan}{\text{-amin }\pm\text{\emph{number}}}$
+            <br>
+            $\color{cyan}{\text{-cmin }\pm\text{\emph{number}}}$
+            <br>
+            $\color{cyan}{\text{-mmin }\pm\text{\emph{number}}}$
+            <br>
+            Returns true if the file was accessed (a), changed (c) or modified (m), more than (+), less than (-) or exactly <i>number</i> of minutes ago.
+        </blockquote>
+    </details>
+    <details>
+        <summary>Days</summary>
+        <br>
+        <blockquote>
+            $\color{cyan}{\text{-atime }\pm\text{\emph{number}}}$
+            <br>
+            $\color{cyan}{\text{-ctime }\pm\text{\emph{number}}}$
+            <br>
+            $\color{cyan}{\text{-mtime }\pm\text{\emph{number}}}$
+            <br>
+            Returns true if the file was accessed (a), changed (c) or modified (m), more than (+), less than (-) or exactly <i>number</i> of days ($n * 24$ hours) ago.
+        </blockquote>
+    </details>
+    As of version 4.9.0, there appears to be a <a href="https://savannah.gnu.org/bugs/?23065">known bug</a> such that $\color{cyan}{\text{-daystart}}$ sets the reference point <em>not</em> to the start of today, but rather the <em>start of tomorrow</em> (00:00:00 tomorrow). When $\color{cyan}{\text{-daystart}}$ is used together with $\color{cyan}{\text{-[acm]min}}$ or $\color{cyan}{\text{-[acm]time}}$, the tests behave as before, except they use the new reference time rather than the current time.
+</details>
+<details>
+    <summary>Comparing Timestamps</summary>
+    <br>
+    $\color{cyan}{\text{-newer[X][Y] \emph{reference_file}}}$
+    <br>
+    Return true if timestamp 'X' of the file under examination is newer than timestamp 'Y' of the reference file, and returns false if timestamp 'X' is as old or older than than timestamp 'Y'.
+    <br>
+    'X' and 'Y' must be any of the following letters, and the letters determine which timestamp they refer to:
+    <ul>
+        <li>access (a): The file's contents are read</li>
+        <li>change (c): The file's metadata or attributes are changed</li>
+        <li>modify (m): The file's contents are changed (and as a consequence, so too is its metadata)</li>
+    </ul>
+    <details>
+        <summary>Shortcuts commands to compare (access, change, or modification) time of the current file with the last modification time of the reference file</summary>
+        <br>
+        $\color{cyan}{\text{-anewer \emph{reference_file}}}$ is equivalent to $\color{cyan}{\text{-neweram}}$
+        <br>
+        $\color{cyan}{\text{-cnewer \emph{reference_file}}}$ is equivalent to $\color{cyan}{\text{-newercm}}$
+        <br>
+        $\color{cyan}{\text{-newer \emph{reference_file}}}$ is equivalent to $\color{cyan}{\text{-newermm}}$
+        <br>
+    </details>
+    <details>
+        <summary>Compare using a time literal</summary>
+        <br>
+        If using $\color{cyan}{\text{-newer[X]t \emph{time}}}$ where 'X' can be any of the options presented previously, then you can provide a timestamp literal (see the <a href="https://www.gnu.org/software/findutils/manual/find.pdf#Date%20input%20formats">official documentation</a> for valid date syntax), instead of a reference file.
+    </details>
 </details>
 
 ### Copyright
