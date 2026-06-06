@@ -359,35 +359,99 @@ Allows the filtering of files based on their metadata.
         </blockquote>
     </details>
     As of version 4.9.0, there appears to be a <a href="https://savannah.gnu.org/bugs/?23065">known bug</a> such that $\color{cyan}{\text{-daystart}}$ sets the reference point <em>not</em> to the start of today, but rather the <em>start of tomorrow</em> (00:00:00 tomorrow). When $\color{cyan}{\text{-daystart}}$ is used together with $\color{cyan}{\text{-[acm]min}}$ or $\color{cyan}{\text{-[acm]time}}$, the tests behave as before, except they use the new reference time rather than the current time.
+    <br>
+    <details>
+        <summary>Comparing Timestamps</summary>
+        <br>
+        $\color{cyan}{\text{-newer[X][Y] \emph{reference\_file}}}$
+        <br>
+        Return true if timestamp 'X' of the file under examination is newer than timestamp 'Y' of the reference file, and returns false if timestamp 'X' is as old or older than than timestamp 'Y'.
+        <br>
+        <br>
+        'X' and 'Y' must be any of the following letters, and the letters determine which timestamp they refer to:
+        <ul>
+            <li>access (a): The file's contents are read</li>
+            <li>change (c): The file's metadata or attributes are changed</li>
+            <li>modify (m): The file's contents are changed (and as a consequence, so too is its metadata)</li>
+        </ul>
+        <details>
+            <summary>Shortcuts commands to compare (access, change, or modification) time of the current file with the last modification time of the reference file</summary>
+            <br>
+            $\color{cyan}{\text{-anewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-neweram}}$
+            <br>
+            $\color{cyan}{\text{-cnewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newercm}}$
+            <br>
+            $\color{cyan}{\text{-newer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newermm}}$
+            <br>
+        </details>
+        <details>
+            <summary>Compare using a time literal</summary>
+            <br>
+            If using $\color{cyan}{\text{-newer[X]t \emph{time}}}$ where 'X' can be any of the options presented previously, then you can provide a timestamp literal (see the <a href="https://www.gnu.org/software/findutils/manual/find.pdf#Date%20input%20formats">official documentation</a> for valid date syntax), instead of a reference file.
+        </details>
+    </details>
 </details>
 <details>
-    <summary>Comparing Timestamps</summary>
+    <summary>Size</summary>
     <br>
-    $\color{cyan}{\text{-newer[X][Y] \emph{reference\_file}}}$
+    $\color{cyan}{\text{-size }\pm\text{number\emph{[bckwMG]}}$
     <br>
-    Return true if timestamp 'X' of the file under examination is newer than timestamp 'Y' of the reference file, and returns false if timestamp 'X' is as old or older than than timestamp 'Y'.
+    <blockquote>
+        Returns true if the file uses <i>number</i> units of space, rounded up. The one-character suffix determines the size of the memory block:
+        <br>
+        <ul>
+            <li>b (default) : 512-byte blocks</li>
+            <li>c : bytes</li>
+            <li>w : 2-byte words</li>
+            <li>k : Kibibytes (KiB, units of 1024 bytes)</li>
+            <li>M : Mebibytes (MiB, units of 1024<sup>2</sup> bytes</li>
+            <li>G : Gibibytes (GiB, units of 1024<sup>3</sup> bytes</li>
+        </ul>
+        <br>
+        Note that +<i>number</i> matches files $\ge$ the given size, while -<i>number</i> matches files $\le$ a given size - 1. Therefore as shown in the official documentation <code>-size -1M</code> will only match files that are 0M in size (i.e., empty files), while <code>-size -1048576c</code> will match files from 1048575 bytes to 0 bytes in size.
+    </blockquote>
     <br>
+    $\color{cyan}{\text{-empty}}$
     <br>
-    'X' and 'Y' must be any of the following letters, and the letters determine which timestamp they refer to:
-    <ul>
-        <li>access (a): The file's contents are read</li>
-        <li>change (c): The file's metadata or attributes are changed</li>
-        <li>modify (m): The file's contents are changed (and as a consequence, so too is its metadata)</li>
-    </ul>
+    Returns true if the candidate file is empty and either a regular file or a directory.
+</details>
+<details>
+    <summary>Type</summary>
+    <br>
+    $\color{cyan}{\text{-type \emph{c}}}$
+    <br>
+    Returns true if the candidate file is of type <i>c</i>:
+    <blockquote>
+        <ul>
+            <li>b : block device file (buffered)</li>
+            <li>c : character device file (unbuffered)</li>
+            <li>d : directory</li>
+            <li>P : named pipe (FIFO)</li>
+            <li>f : regular file</li>
+            <li>l : symbolic link (with -L, true only for broken links)</li>
+            <li>s : socket</li>
+        </ul>
+    </blockquote>
+    <br>
+    Note: multiple file types can be listed together as a comma separated list and the expression will return true if the file matches any of the types (e.x., <code>-type f,d,l</code> matches all regular files, directories, and symbolic links.
+    <br>
     <details>
-        <summary>Shortcuts commands to compare (access, change, or modification) time of the current file with the last modification time of the reference file</summary>
+        <summary>$\color{cyan}{\text{-xtype \emph{c}}}$ as a counterpoint to <code>-type</code></summary>
         <br>
-        $\color{cyan}{\text{-anewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-neweram}}$
+        $\color{cyan}{\text{-xtype \emph{c}}}$ behaves the same as <code>-type</code>, unless the file is a symbolic link, in which case it will examine the file the <code>-type</code> does not check. This case be combined with the link deference options <code>-P</code> (never dereference links) and <code>-L</code> (always dereference links) to search for broken links.
         <br>
-        $\color{cyan}{\text{-cnewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newercm}}$
         <br>
-        $\color{cyan}{\text{-newer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newermm}}$
+        For example:
         <br>
-    </details>
-    <details>
-        <summary>Compare using a time literal</summary>
-        <br>
-        If using $\color{cyan}{\text{-newer[X]t \emph{time}}}$ where 'X' can be any of the options presented previously, then you can provide a timestamp literal (see the <a href="https://www.gnu.org/software/findutils/manual/find.pdf#Date%20input%20formats">official documentation</a> for valid date syntax), instead of a reference file.
+        <blockquote>
+            $\color{cyan}{\text{-P -xtype l}}$ returns true if the symbolic link is broken
+            <br>
+            $\color{cyan}{\text{-P -xtype X}}$ returns true if the target file is of type 'X
+            <br>
+            $\color{cyan}{\text{-L -xtype l}}$ always true 
+            <br>
+            $\color{cyan}{\text{-L -xtype X}}$ this is actually an <a href="https://savannah.gnu.org/bugs/?65349">issue pointed out by another user</a>, where because the symbolic link is dereferenced this expression always returns false. On healthy links <code>-xtype X</code> returns false because the link is not of type 'X', and on broken links <code>find</code> tries to resolve the broken link, fails, and reverts to the optional behaviour of <code>-L</code> where it examines the link itself, which also returns false because the link is not of type 'X'. Therefore this expression behaves almost identically to <code>find -L -type X</code>, except that it will ignore functional symmetric links
+        </blockquote>
     </details>
 </details>
 
