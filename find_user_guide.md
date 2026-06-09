@@ -251,7 +251,7 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
         <br>
         <blockquote>
             <details>
-            <summary>$\color{white}{\text{Match Relative Path Name using Shell Patterns}}</summary>
+            <summary style="color:#FFFFFF">Match Relative Path Name using Shell Patterns</summary>
                 <blockquote>
                     $\color{cyan}{\text{-path \emph{pattern}}}$
                     <br>
@@ -265,7 +265,7 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
                 </blockquote>
             </details>
             <details>
-                <summary>$\color{white}{\text{Match Relative Path Name using Regular Expressions}}</summary>
+                <summary style="color:#FFFFFF">Match Relative Path Name using Regular Expressions</summary>
                     <blockquote>
                         $\color{cyan}{\text{-regex \emph{expr}}}$
                         <br>
@@ -275,7 +275,7 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
                         <br>
                         <br>
                         <details>
-                            <summary>$\color{white}{\text{Changing Regular Expression Syntax}}</summary>
+                            <summary style="color:#FFFFFF">Changing Regular Expression Syntax</summary>
                             <blockquote>
                             The positional option $\color{cyan}{\text{-regextype \emph{name}}}$ changes the regular expression syntax for all following regular expressions. <code>-regextype emacs</code> is in effect by default, however the other possible arguments include: <code>posix-awk, posix-basic, posix-egrep, posix-extended</code>.
                         </blockquote>
@@ -381,7 +381,7 @@ Allows the filtering of files based on their metadata.
                 <li>modify (m): The file's contents are changed (and as a consequence, so too is its metadata)</li>
             </ul>
             <details>
-                <summary>$\color{white}{\text{Shortcuts commands to compare (access, change, or modification) time of the current file with the last modification time of the reference file}}</summary>
+                <summary style="color:#FFFFFF">Shortcuts commands to compare (access, change, or modification) time of the current file with the last modification time of the reference file</summary>
                 <blockquote>
                     <br>
                     $\color{cyan}{\text{-anewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-neweram}}$
@@ -392,7 +392,7 @@ Allows the filtering of files based on their metadata.
                 </blockquote>
             </details>
             <details>
-                <summary>$\color{white}{\text{Compare using a time literal}}</summary>
+                <summary style="color:#FFFFFF">Compare using a time literal</summary>
                 <blockquote>
                     <br>
                     If using $\color{cyan}{\text{-newer[X]t \emph{time}}}$ where 'X' can be any of the options presented previously, then you can provide a timestamp literal (see the <a href="https://www.gnu.org/software/findutils/manual/find.pdf#Date%20input%20formats">official documentation</a> for valid date syntax), instead of a reference file.
@@ -407,6 +407,7 @@ Allows the filtering of files based on their metadata.
     $\color{cyan}{\text{-size }\pm\text{number\emph{[bckwMG]}}}$
     <br>
     <blockquote>
+        <br>
         Returns true if the file uses <i>number</i> units of space, rounded up. The one-character suffix determines the size of the memory block:
         <br>
         <ul>
@@ -417,7 +418,6 @@ Allows the filtering of files based on their metadata.
             <li>M : Mebibytes (MiB, units of 1024<sup>2</sup> bytes</li>
             <li>G : Gibibytes (GiB, units of 1024<sup>3</sup> bytes</li>
         </ul>
-        <br>
         Note that +<i>number</i> matches files $\ge$ the given size, while -<i>number</i> matches files $\le$ a given size - 1. Therefore as shown in the official documentation <code>-size -1M</code> will only match files that are 0M in size (i.e., empty files), while <code>-size -1048576c</code> will match files from 1048575 bytes to 0 bytes in size.
     </blockquote>
     <br>
