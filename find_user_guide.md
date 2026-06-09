@@ -251,7 +251,8 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
         <br>
         <blockquote>
             <details>
-            <summary style="color:#FFFFFF">Match Relative Path Name using Shell Patterns</summary>
+            <summary>Match Relative Path Name using Shell Patterns</summary>
+                <br>
                 <blockquote>
                     $\color{cyan}{\text{-path \emph{pattern}}}$
                     <br>
@@ -265,7 +266,8 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
                 </blockquote>
             </details>
             <details>
-                <summary style="color:#FFFFFF">Match Relative Path Name using Regular Expressions</summary>
+                <summary>Match Relative Path Name using Regular Expressions</summary>
+                    <br>
                     <blockquote>
                         $\color{cyan}{\text{-regex \emph{expr}}}$
                         <br>
@@ -275,10 +277,11 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
                         <br>
                         <br>
                         <details>
-                            <summary style="color:#FFFFFF">Changing Regular Expression Syntax</summary>
-                            <blockquote>
-                            The positional option $\color{cyan}{\text{-regextype \emph{name}}}$ changes the regular expression syntax for all following regular expressions. <code>-regextype emacs</code> is in effect by default, however the other possible arguments include: <code>posix-awk, posix-basic, posix-egrep, posix-extended</code>.
-                        </blockquote>
+                            <summary>Changing Regular Expression Syntax</summary>
+                                <br>
+                                <blockquote>
+                                    The positional option $\color{cyan}{\text{-regextype \emph{name}}}$ changes the regular expression syntax for all following regular expressions. <code>-regextype emacs</code> is in effect by default, however the other possible arguments include: <code>posix-awk, posix-basic, posix-egrep, posix-extended</code>.
+                            </blockquote>
                     </details>
                 </blockquote>
             </details>
@@ -420,7 +423,6 @@ Allows the filtering of files based on their metadata.
         </ul>
         Note that +<i>number</i> matches files $\ge$ the given size, while -<i>number</i> matches files $\le$ a given size - 1. Therefore as shown in the official documentation <code>-size -1M</code> will only match files that are 0M in size (i.e., empty files), while <code>-size -1048576c</code> will match files from 1048575 bytes to 0 bytes in size.
     </blockquote>
-    <br>
     $\color{cyan}{\text{-empty}}$
     <br>
     Returns true if the candidate file is empty and either a regular file or a directory.
@@ -461,7 +463,7 @@ Allows the filtering of files based on their metadata.
             <br>
             $\color{cyan}{\text{-L -xtype l}}$ always true 
             <br>
-            $\color{cyan}{\text{-L -xtype X}}$ this is actually an <a href="https://savannah.gnu.org/bugs/?65349">issue pointed out by another user</a>, where because the symbolic link is dereferenced this expression always returns false. On healthy links <code>-xtype X</code> returns false because the link is not of type 'X', and on broken links <code>find</code> tries to resolve the broken link, fails, and reverts to the optional behaviour of <code>-L</code> where it examines the link itself, which also returns false because the link is not of type 'X'. Therefore this expression behaves almost identically to <code>find -L -type X</code>, except that it will ignore all symmetric links
+            $\color{cyan}{\text{-L -xtype X}}$ this is actually an <a href="https://savannah.gnu.org/bugs/?65349">issue pointed out by another user</a>, where because the symbolic link is dereferenced this expression always returns false. On healthy links <code>-xtype X</code> returns false because the link is not of type 'X', and on broken links <code>find</code> tries to resolve the broken link, fails, and reverts to the optional behaviour of <code>-L</code> where it examines the link itself, which also returns false because the link is not of type 'X'. Therefore this expression behaves almost identically to <code>find -L -type X</code>, except that it will ignore all symmetric links.
         </blockquote>
     </details>
 </details>
@@ -469,8 +471,67 @@ Allows the filtering of files based on their metadata.
     <summary>Owner</summary>
     <br>
     <blockquote>
-        $\color{cyan}{\text{-user \emph{uname}}}$
+        $\color{cyan}{\text{-user \emph{username}}}$
         <br>
+        $\color{cyan}{\text{-group \emph{groupname}}}$
+        <br>
+        Returns true if the file is owned by <i>username</i>, or by <i>groupname</i>. 
+    </blockquote>
+    <blockquote>
+        $\color{cyan}{\text{-uid \emph{n}}}$
+        <br>
+        $\color{cyan}{\text{-gid \emph{n}}}$
+        <br>
+        Returns true if the file's numberic <i>userid</i>, or by <i>groupid</i> is $\pm n$. While the official documentation states that <code>-user</code> and <code>-group</code> can also take numeric IDs, <code>-uid</code> and <code>-gid</code> are better suited as they also support ranges (unlike the first two).
+    </blockquote>
+    <blockquote>
+        $\color{cyan}{\text{-nouser}}$
+        <br>
+        $\color{cyan}{\text{-nogroup}}$
+        <br>
+        Returns true if the file's user ID (or group ID) does not correspond to any user (or group).
+    </blockquote>
+</details>
+<details>
+    <summary>File Permissions</summary>
+    <br>
+    Users should be wary when using these options as they may return false reports due to additional restrictions outside the scope of these system calls; for example, restrictions on NFS servers, race conditions, and available memory.
+    <details>
+        <summary>Test file permissions via <code>access</code> system call</summary>
+        <br>
+        <blockquote>
+            $\color{cyan}{\text{-readable}}$
+            <br>
+            $\color{cyan}{\text{-writable}}$
+            <br>
+            $\color{cyan}{\text{-executable}}$
+            <br>
+            Returns true if the current user can read/write/execute the candidate file.
+        </blockquote>
+    </details>
+    <details>
+        <summary>Test file permissions via mode bits</summary>
+        <br>
+        $\color{cyan}{\text{-perm \emph{pmode}}}$ where <i>pmode</i> is either the symbolic or numeric form of the mode and may be optionally prefixed by '-' or '/'.
+        <br>
+        <blockquote>
+            If the <i>pmode</i> starts with '-', then the test returns true if <em>at least <b>all</b></em>the file's mode bit match the given <i>pmode</i>. (i.e., <code>pmode -554</code> matches files with modes 0554, 0555, 0654, 0777, etc.)
+            <br>
+            <br>
+            If the <i>pmode</i> starts with '-', then the test returns true if <em><b>any</b></em> of the file's mode bit match the given <i>pmode</i>. (i.e., <code>pmode /022</code> returns true if the file is writable by the group, other, or both.)
+            <br>
+            <br>
+            And if there is no prefix, then the test returns true <em>only if</em> all the file's mode bits match exactly.
+        </blockquote>
+    </details>
+</details>
+<details>
+    <summary>Filesystem</summary>
+    <br>
+    <blockquote>
+        $\color{cyan}{\text{-fstype \emph{type}}}$
+        <br>
+        Returns true if the file is on a filesystem of the given <i>type</i>. Can be used together with <code>-prune</code> to avoid searching other filesystems (however, <code>{ -xdev | -mount }</code> are better suited.
     </blockquote>
 </details>
 
