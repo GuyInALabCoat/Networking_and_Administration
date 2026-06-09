@@ -478,9 +478,9 @@ Allows the filtering of files based on their metadata.
         Returns true if the file is owned by <i>username</i>, or by <i>groupname</i>. 
     </blockquote>
     <blockquote>
-        $\color{cyan}{\text{-uid \emph{n}}}$
+        $\color{cyan}{\text{-uid }\pm\text{\emph{n}}}$
         <br>
-        $\color{cyan}{\text{-gid \emph{n}}}$
+        $\color{cyan}{\text{-gid }\pm\text{\emph{n}}}$
         <br>
         Returns true if the file's numberic <i>userid</i>, or by <i>groupid</i> is $\pm n$. While the official documentation states that <code>-user</code> and <code>-group</code> can also take numeric IDs, <code>-uid</code> and <code>-gid</code> are better suited as they also support ranges (unlike the first two).
     </blockquote>
@@ -495,7 +495,8 @@ Allows the filtering of files based on their metadata.
 <details>
     <summary>File Permissions</summary>
     <br>
-    Users should be wary when using these options as they may return false reports due to additional restrictions outside the scope of these system calls; for example, restrictions on NFS servers, race conditions, and available memory.
+    Users should be cautious when using these options as they may return false reports due to additional restrictions outside the scope of these system calls; for example, restrictions on NFS servers, race conditions, and available memory.
+    <br>
     <details>
         <summary>Test file permissions via <code>access</code> system call</summary>
         <br>
@@ -515,10 +516,11 @@ Allows the filtering of files based on their metadata.
         $\color{cyan}{\text{-perm \emph{pmode}}}$ where <i>pmode</i> is either the symbolic or numeric form of the mode and may be optionally prefixed by '-' or '/'.
         <br>
         <blockquote>
-            If the <i>pmode</i> starts with '-', then the test returns true if <em>at least <b>all</b></em>the file's mode bit match the given <i>pmode</i>. (i.e., <code>pmode -554</code> matches files with modes 0554, 0555, 0654, 0777, etc.)
+            <br>
+            If the <i>pmode</i> starts with '-', then the test returns true if <em>at least <b>all</b></em> the file's mode bits match the given <i>pmode</i>. (i.e., <code>pmode -554</code> matches files with modes 0554, 0555, 0654, 0777, etc.)
             <br>
             <br>
-            If the <i>pmode</i> starts with '-', then the test returns true if <em><b>any</b></em> of the file's mode bit match the given <i>pmode</i>. (i.e., <code>pmode /022</code> returns true if the file is writable by the group, other, or both.)
+            If the <i>pmode</i> starts with '-/', then the test returns true if <em><b>any</b></em> of the file's mode bit match the given <i>pmode</i>. (i.e., <code>pmode /022</code> returns true if the file is writable by the group, other, or both.)
             <br>
             <br>
             And if there is no prefix, then the test returns true <em>only if</em> all the file's mode bits match exactly.
