@@ -154,10 +154,11 @@ $\color{cyan}{\text{-O\emph{level}}}$
             Reverses the effect of the <code>-ignore_readdir_race</code> option.
         </blockquote>
     </details>
-    $\color{cyan}{\text{-noleaf}}$
     <details>
         <summary>Necessary Option for Non-Unix-like Filesystems (CD-ROM, MS-DOS, AFS, etc.)</summary>
         <blockquote>
+            <br>
+            $\color{cyan}{\text{-noleaf}}$
             <br>
             On Unix filesystems, each directory has 2 + N number of hard links to it (where N is the number of immediate subdirectories). A directory with no subdirectories has only 2 hard links: 
             <ol>
@@ -250,7 +251,7 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
         <br>
         <blockquote>
             <details>
-            <summary>Match Relative Path Name using Shell Patterns</summary>
+            <summary>$\color{white}{\text{Match Relative Path Name using Shell Patterns}}</summary>
                 <blockquote>
                     $\color{cyan}{\text{-path \emph{pattern}}}$
                     <br>
@@ -264,7 +265,7 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
                 </blockquote>
             </details>
             <details>
-                <summary>Match Relative Path Name using Regular Expressions</summary>
+                <summary>$\color{white}{\text{Match Relative Path Name using Regular Expressions}}</summary>
                     <blockquote>
                         $\color{cyan}{\text{-regex \emph{expr}}}$
                         <br>
@@ -272,8 +273,9 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
                         <br>
                         Returns true if the relative path name beginning from the starting point directory to the file basename, matches the given regular expression. As with $\color{cyan}{\text{-path}}$, a regular expression matching a terminal slash '/' will not match any file. Likewise, $\color{cyan}{\text{-iregex}}$ matches in a case-insensitive manner.
                         <br>
+                        <br>
                         <details>
-                            <summary>Changing Regular Expression Syntax</summary>
+                            <summary>$\color{white}{\text{Changing Regular Expression Syntax}}</summary>
                             <blockquote>
                             The positional option $\color{cyan}{\text{-regextype \emph{name}}}$ changes the regular expression syntax for all following regular expressions. <code>-regextype emacs</code> is in effect by default, however the other possible arguments include: <code>posix-awk, posix-basic, posix-egrep, posix-extended</code>.
                         </blockquote>
@@ -290,6 +292,7 @@ Depending on which *Link Options* (if any) are selected, the files to be examine
 
 <details>
     <summary>Symbolic Links</summary>
+    <br>
     <blockquote>
         $\color{cyan}{\text{-lname \emph{pattern}}}$
         <br>
@@ -301,6 +304,7 @@ Depending on which *Link Options* (if any) are selected, the files to be examine
 
 <details>
     <summary>Hard Links</summary>
+    <br>
     <blockquote>
         $\color{cyan}{\text{-samefile \emph{name}}}$
         <br>
@@ -334,6 +338,7 @@ Allows the filtering of files based on their metadata.
     </blockquote>
     <details>
         <summary>Minutes</summary>
+        <br>
         <blockquote>
             $\color{cyan}{\text{-amin }\pm\text{\emph{number}}}$
             <br>
@@ -346,6 +351,7 @@ Allows the filtering of files based on their metadata.
     </details>
     <details>
         <summary>Days</summary>
+        <br>
         <blockquote>
             $\color{cyan}{\text{-atime }\pm\text{\emph{number}}}$
             <br>
@@ -361,6 +367,7 @@ Allows the filtering of files based on their metadata.
     <br>
     <details>
         <summary>Comparing Timestamps</summary>
+        <br>
         <blockquote>
             $\color{cyan}{\text{-newer[X][Y] \emph{reference\_file}}}$
             <br>
@@ -374,8 +381,9 @@ Allows the filtering of files based on their metadata.
                 <li>modify (m): The file's contents are changed (and as a consequence, so too is its metadata)</li>
             </ul>
             <details>
-                <summary>Shortcuts commands to compare (access, change, or modification) time of the current file with the last modification time of the reference file</summary>
+                <summary>$\color{white}{\text{Shortcuts commands to compare (access, change, or modification) time of the current file with the last modification time of the reference file}}</summary>
                 <blockquote>
+                    <br>
                     $\color{cyan}{\text{-anewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-neweram}}$
                     <br>
                     $\color{cyan}{\text{-cnewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newercm}}$
@@ -384,9 +392,10 @@ Allows the filtering of files based on their metadata.
                 </blockquote>
             </details>
             <details>
-                <summary>Compare using a time literal</summary>
+                <summary>$\color{white}{\text{Compare using a time literal}}</summary>
                 <blockquote>
-            If using $\color{cyan}{\text{-newer[X]t \emph{time}}}$ where 'X' can be any of the options presented previously, then you can provide a timestamp literal (see the <a href="https://www.gnu.org/software/findutils/manual/find.pdf#Date%20input%20formats">official documentation</a> for valid date syntax), instead of a reference file.
+                    <br>
+                    If using $\color{cyan}{\text{-newer[X]t \emph{time}}}$ where 'X' can be any of the options presented previously, then you can provide a timestamp literal (see the <a href="https://www.gnu.org/software/findutils/manual/find.pdf#Date%20input%20formats">official documentation</a> for valid date syntax), instead of a reference file.
                 </blockquote>
             </details>
         </blockquote>
@@ -423,6 +432,7 @@ Allows the filtering of files based on their metadata.
     <br>
     Returns true if the candidate file is of type <i>c</i>:
     <blockquote>
+        <br>
         <ul>
             <li>b : block device file (buffered)</li>
             <li>c : character device file (unbuffered)</li>
@@ -433,8 +443,8 @@ Allows the filtering of files based on their metadata.
             <li>s : socket</li>
         </ul>
     </blockquote>
-    <br>
     Note: multiple file types can be listed together as a comma separated list and the expression will return true if the file matches any of the types (e.x., <code>-type f,d,l</code> matches all regular files, directories, and symbolic links.
+    <br>
     <br>
     <details>
         <summary>$\color{cyan}{\text{-xtype \emph{c}}}$ as a counterpoint to <code>-type</code></summary>
