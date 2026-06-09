@@ -177,7 +177,7 @@ $\color{cyan}{\text{-O\emph{level}}}$
 <details>
     <summary>Toggle warning messages</summary>
     <br>
-        In the official documentation, there are a few *Positional Options* that rather than affecting the whole command, affect only the parts of the command that follow them. One is deprecated, and therefore will not be mentioned here. Two others affect only the tests that follow them, and therefore I feel it is best to mention them in the context of the tests they modify. 
+        In the official documentation, there are a few <i>Positional Options</i> that rather than affecting the whole command, affect only the parts of the command that follow them. One is deprecated, and therefore will not be mentioned here. Two others affect only the tests that follow them, and therefore I feel it is best to mention them in the context of the tests they modify. 
         <br>
         <br>
         The two special outliers among these options are $\color{cyan}{\text{-warn (default), -nowarn}}$ 
@@ -211,6 +211,7 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
     <br>
     Except when explicitly matching files using Regular Expressions (using $\color{cyan}{\text{-regex}}$ or $\color{cyan}{\text{-iregex}}$), all matching is done using <i>shell patterns</i>. A shell pattern is a string that may contain regular characters alongside the following <i>wildcard characters</i> and as such it must be surrounded by quotes ' or ", in order to prevent the shell itself from expanding those characters.
     <br>
+    <br>
     <table>
         <tr>
             <td>*</td>
@@ -222,11 +223,11 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
         </tr>
         <tr>
             <td>[...]</td>
-            <td>Matches any one of the characters enclosed within the brackets. Inclusive character ranges can be given with a hyphen between the first and last character that will match any character within those ranges. If the first character is '!' or '^' then it will match any character except those in the range.</td>
+            <td>Matches any one of the characters enclosed within the brackets. Inclusive character ranges can be given with a hyphen between the first and last character that will match any character within those ranges (e.g,  [a-z], [0-9], etc.). If the first character is '!' or '^' then it will match any character except those in the range.</td>
         </tr>
         <tr>
             <td>[:class:]</td>
-            <td>Matches any character that belongs to that class. Valid classes include: alnum, alpha, ascii, blank, cntrl, digit, graph, lower, print, punct, space, upper, word, and xdigit.</td>
+            <td>Matches any character that belongs to that class. Valid classes include: <i>alnum</i>, <i>alpha</i>, <i>ascii</i>, <i>blank</i>, <i>cntrl</i>, <i>digit</i>, <i>graph</i>, <i>lower</i>, <i>print</i>, <i>punct</i>, <i>space</i>, <i>upper</i>, <i>word</i>, and <i>xdigit</i>.</td>
         </tr>
         <tr>
             <td>\</td>
@@ -247,38 +248,39 @@ To ignore a whole directory tree, use `[Test] (directory to exclude)` $\color{cy
     <details>
         <summary>Relative Path Name</summary>
         <br>
-        <details>
-        <summary>Match Relative Path Name using Shell Patterns</summary>
-            <blockquote>
-                $\color{cyan}{\text{-path \emph{pattern}}}$
-                <br>
-                $\color{cyan}{\text{-ipath \emph{pattern}}}$
-                <br>
-                $\color{cyan}{\text{-wholename \emph{pattern}}}$
-                <br>
-                $\color{cyan}{\text{-iwholename \emph{pattern}}}$
-                <br>
-                Returns true if the relative path name beginning from the starting point directory to the basename of the file, matches the given shell pattern. As no file basename ends with a '/', any pattern ending in a '/' will not match anything. $\color{cyan}{\text{-path}}$ and $\color{cyan}{\text{-wholename}}$ are synonyms, and likewise $\color{cyan}{\text{-ipath}}$ and $\color{cyan}{\text{-iwholename}}$ match in a case-insensitive manner.    
-            </blockquote>
-        </details>
-        <details>
-            <summary>Match Relative Path Name using Regular Expressions</summary>
-            <br>
-            <blockquote>
-                $\color{cyan}{\text{-regex \emph{expr}}}$
-                <br>
-                $\color{cyan}{\text{-iregex \emph{expr}}}$
-                <br>
-                Returns true if the relative path name beginning from the starting point directory to the file basename, matches the given regular expression. As with $\color{cyan}{\text{-path}}$, a regular expression matching a terminal slash '/' will not match any file. Likewise, $\color{cyan}{\text{-iregex}}$ matches in a case-insensitive manner.
-                <details>
-                    <summary>Changing Regular Expression Syntax</summary>
+        <blockquote>
+            <details>
+            <summary>Match Relative Path Name using Shell Patterns</summary>
+                <blockquote>
+                    $\color{cyan}{\text{-path \emph{pattern}}}$
                     <br>
+                    $\color{cyan}{\text{-ipath \emph{pattern}}}$
+                    <br>
+                    $\color{cyan}{\text{-wholename \emph{pattern}}}$
+                    <br>
+                    $\color{cyan}{\text{-iwholename \emph{pattern}}}$
+                    <br>
+                    Returns true if the relative path name beginning from the starting point directory to the basename of the file, matches the given shell pattern. As no file basename ends with a '/', any pattern ending in a '/' will not match anything. $\color{cyan}{\text{-path}}$ and $\color{cyan}{\text{-wholename}}$ are synonyms, and likewise $\color{cyan}{\text{-ipath}}$ and $\color{cyan}{\text{-iwholename}}$ match in a case-insensitive manner.    
+                </blockquote>
+            </details>
+            <details>
+                <summary>Match Relative Path Name using Regular Expressions</summary>
                     <blockquote>
-                        The positional option $\color{cyan}{\text{-regextype \emph{name}}}$ changes the regular expression syntax for all following regular expressions. <code>-regextype emacs</code> is in effect by default, however the other possible arguments include: <code>posix-awk, posix-basic, posix-egrep, posix-extended</code>.
-                    </blockquote>
-                </details>
-            </blockquote>
-        </details>
+                        $\color{cyan}{\text{-regex \emph{expr}}}$
+                        <br>
+                        $\color{cyan}{\text{-iregex \emph{expr}}}$
+                        <br>
+                        Returns true if the relative path name beginning from the starting point directory to the file basename, matches the given regular expression. As with $\color{cyan}{\text{-path}}$, a regular expression matching a terminal slash '/' will not match any file. Likewise, $\color{cyan}{\text{-iregex}}$ matches in a case-insensitive manner.
+                        <br>
+                        <details>
+                            <summary>Changing Regular Expression Syntax</summary>
+                            <blockquote>
+                            The positional option $\color{cyan}{\text{-regextype \emph{name}}}$ changes the regular expression syntax for all following regular expressions. <code>-regextype emacs</code> is in effect by default, however the other possible arguments include: <code>posix-awk, posix-basic, posix-egrep, posix-extended</code>.
+                        </blockquote>
+                    </details>
+                </blockquote>
+            </details>
+        </blockquote>
     </details>
 </details>
 
@@ -288,7 +290,6 @@ Depending on which *Link Options* (if any) are selected, the files to be examine
 
 <details>
     <summary>Symbolic Links</summary>
-    <br>
     <blockquote>
         $\color{cyan}{\text{-lname \emph{pattern}}}$
         <br>
@@ -300,7 +301,6 @@ Depending on which *Link Options* (if any) are selected, the files to be examine
 
 <details>
     <summary>Hard Links</summary>
-    <br>
     <blockquote>
         $\color{cyan}{\text{-samefile \emph{name}}}$
         <br>
@@ -330,11 +330,10 @@ Allows the filtering of files based on their metadata.
         <li>modify (m): The file's contents are changed (and as a consequence, so too is its metadata)</li>
     </ul>
     <blockquote>
-        Options that accept numbers as arguments can also accept ranges using $\color{cyan}{\pm\text{\emph{number}}}$ to indicate times that are older (+) or newer (-) than a given <i>number</i> of days/minutes. Integer and decimal numbers are accepted, however for decimals the decimal component is truncated, effectively evaluating the floor of any given decimal number (e.g., +0.98 would be truncated to +0 days/minutes).
+        Options that accept numbers as arguments can also accept ranges using $\color{cyan}{\pm\text{\emph{number}}}$ to indicate times that are older (+) or newer (-) than a given <i>number</i> of days/minutes. Integer and decimal numbers are accepted, however decimals should only be used with ranges as they represent the decimal fraction of a given time value.
     </blockquote>
     <details>
         <summary>Minutes</summary>
-        <br>
         <blockquote>
             $\color{cyan}{\text{-amin }\pm\text{\emph{number}}}$
             <br>
@@ -347,7 +346,6 @@ Allows the filtering of files based on their metadata.
     </details>
     <details>
         <summary>Days</summary>
-        <br>
         <blockquote>
             $\color{cyan}{\text{-atime }\pm\text{\emph{number}}}$
             <br>
@@ -360,41 +358,44 @@ Allows the filtering of files based on their metadata.
     </details>
     As of version 4.9.0, there appears to be a <a href="https://savannah.gnu.org/bugs/?23065">known bug</a> such that $\color{cyan}{\text{-daystart}}$ sets the reference point <em>not</em> to the start of today, but rather the <em>start of tomorrow</em> (00:00:00 tomorrow). When $\color{cyan}{\text{-daystart}}$ is used together with $\color{cyan}{\text{-[acm]min}}$ or $\color{cyan}{\text{-[acm]time}}$, the tests behave as before, except they use the new reference time rather than the current time.
     <br>
+    <br>
     <details>
         <summary>Comparing Timestamps</summary>
-        <br>
-        $\color{cyan}{\text{-newer[X][Y] \emph{reference\_file}}}$
-        <br>
-        Return true if timestamp 'X' of the file under examination is newer than timestamp 'Y' of the reference file, and returns false if timestamp 'X' is as old or older than than timestamp 'Y'.
-        <br>
-        <br>
-        'X' and 'Y' must be any of the following letters, and the letters determine which timestamp they refer to:
-        <ul>
-            <li>access (a): The file's contents are read</li>
-            <li>change (c): The file's metadata or attributes are changed</li>
-            <li>modify (m): The file's contents are changed (and as a consequence, so too is its metadata)</li>
-        </ul>
-        <details>
-            <summary>Shortcuts commands to compare (access, change, or modification) time of the current file with the last modification time of the reference file</summary>
+        <blockquote>
+            $\color{cyan}{\text{-newer[X][Y] \emph{reference\_file}}}$
             <br>
-            $\color{cyan}{\text{-anewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-neweram}}$
+            Return true if timestamp 'X' of the file under examination is newer than timestamp 'Y' of the reference file, and returns false if timestamp 'X' is as old or older than than timestamp 'Y'.
             <br>
-            $\color{cyan}{\text{-cnewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newercm}}$
             <br>
-            $\color{cyan}{\text{-newer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newermm}}$
-            <br>
-        </details>
-        <details>
-            <summary>Compare using a time literal</summary>
-            <br>
+            'X' and 'Y' must be any of the following letters, and the letters determine which timestamp they refer to:
+            <ul>
+                <li>access (a): The file's contents are read</li>
+                <li>change (c): The file's metadata or attributes are changed</li>
+                <li>modify (m): The file's contents are changed (and as a consequence, so too is its metadata)</li>
+            </ul>
+            <details>
+                <summary>Shortcuts commands to compare (access, change, or modification) time of the current file with the last modification time of the reference file</summary>
+                <blockquote>
+                    $\color{cyan}{\text{-anewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-neweram}}$
+                    <br>
+                    $\color{cyan}{\text{-cnewer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newercm}}$
+                    <br>
+                    $\color{cyan}{\text{-newer \emph{reference\_file}}}$ is equivalent to $\color{cyan}{\text{-newermm}}$
+                </blockquote>
+            </details>
+            <details>
+                <summary>Compare using a time literal</summary>
+                <blockquote>
             If using $\color{cyan}{\text{-newer[X]t \emph{time}}}$ where 'X' can be any of the options presented previously, then you can provide a timestamp literal (see the <a href="https://www.gnu.org/software/findutils/manual/find.pdf#Date%20input%20formats">official documentation</a> for valid date syntax), instead of a reference file.
-        </details>
+                </blockquote>
+            </details>
+        </blockquote>
     </details>
 </details>
 <details>
     <summary>Size</summary>
     <br>
-    $\color{cyan}{\text{-size }\pm\text{number\emph{[bckwMG]}}$
+    $\color{cyan}{\text{-size }\pm\text{number\emph{[bckwMG]}}}$
     <br>
     <blockquote>
         Returns true if the file uses <i>number</i> units of space, rounded up. The one-character suffix determines the size of the memory block:
@@ -450,9 +451,17 @@ Allows the filtering of files based on their metadata.
             <br>
             $\color{cyan}{\text{-L -xtype l}}$ always true 
             <br>
-            $\color{cyan}{\text{-L -xtype X}}$ this is actually an <a href="https://savannah.gnu.org/bugs/?65349">issue pointed out by another user</a>, where because the symbolic link is dereferenced this expression always returns false. On healthy links <code>-xtype X</code> returns false because the link is not of type 'X', and on broken links <code>find</code> tries to resolve the broken link, fails, and reverts to the optional behaviour of <code>-L</code> where it examines the link itself, which also returns false because the link is not of type 'X'. Therefore this expression behaves almost identically to <code>find -L -type X</code>, except that it will ignore functional symmetric links
+            $\color{cyan}{\text{-L -xtype X}}$ this is actually an <a href="https://savannah.gnu.org/bugs/?65349">issue pointed out by another user</a>, where because the symbolic link is dereferenced this expression always returns false. On healthy links <code>-xtype X</code> returns false because the link is not of type 'X', and on broken links <code>find</code> tries to resolve the broken link, fails, and reverts to the optional behaviour of <code>-L</code> where it examines the link itself, which also returns false because the link is not of type 'X'. Therefore this expression behaves almost identically to <code>find -L -type X</code>, except that it will ignore all symmetric links
         </blockquote>
     </details>
+</details>
+<details>
+    <summary>Owner</summary>
+    <br>
+    <blockquote>
+        $\color{cyan}{\text{-user \emph{uname}}}$
+        <br>
+    </blockquote>
 </details>
 
 ### Copyright
