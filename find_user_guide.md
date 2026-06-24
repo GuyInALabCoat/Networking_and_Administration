@@ -592,9 +592,7 @@ By default, if no action is explicitly given, <code>-print</code> is implemented
 
 <details>
     <summary>Secure Command Execution</summary>
-    <br>
     <blockquote>
-    <br>
         <details>
             <summary>Process Files One at a Time</summary>
             <br>
@@ -608,9 +606,9 @@ By default, if no action is explicitly given, <code>-print</code> is implemented
                 <br>
                 <br>
                 Additionally, passing untrusted data (such as file names) to commands (i.e., 'sh') which interpret arguments as commands to be further interpreted should be avoided wherever possible. If untrusted data must be passed along, then it can be more safely handled using <code>-execdir sh -c 'command "$@"' sh {} ';'</code> where the arguments are expanded using the "$@" construct.
+                <br>
                 <details>
                     <summary>Execute with Confirmation</summary>
-                    <br>
                     <blockquote>
                         $\color{cyan}{\text{-okdir \emph{command} ';'}}$
                         <br>
@@ -638,9 +636,7 @@ By default, if no action is explicitly given, <code>-print</code> is implemented
 </details>
 <details>
     <summary>Insecure Command Execution</summary>
-    <br>
     <blockquote>
-    <br>
         <details>
             <summary>Process Files One at a Time</summary>
             <br>
@@ -651,6 +647,7 @@ By default, if no action is explicitly given, <code>-print</code> is implemented
                 <br>
                 <br>
                 This presents security concerns as a file name beginning with a '-' will be interpreted as a command option and not a file. Alternatively, if in the time between when a file is first matched and the command is executed, the file is changed to a symbolic link then the command may be executed in a location that a user did not intend. Both of these concerns highlight why <code>-execdir</code> should be used over <code>-exec</code> wherever possible.
+                <br>
                 <br>
                 <details>
                     <summary>Execute with Confirmation</summary>
