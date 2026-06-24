@@ -581,9 +581,11 @@ By default, if no action is explicitly given, <code>-print</code> is implemented
 <details>
     <summary>Printing using <code>-printf</code> format</summary>
     <br>
-    $\color{cyan}{\text{-printf \emph{format}, -fprintf \emph{file format}}}$
-    <br>
-    Prints the output in a format similar to the <code>printf</code> C function. There are various directives that enable the printing of both file names and metadata, however it is fairly extensive and therefore it's encouraged to consult the <a href="https://www.gnu.org/software/findutils/manual/find.pdf#Format%20Directives">official documentation</a> for a complete list of details
+        <blockquote>
+            $\color{cyan}{\text{-printf \emph{format}, -fprintf \emph{file format}}}$
+            <br>
+            Prints the output in a format similar to the <code>printf</code> C function. There are various directives that enable the printing of both file names and metadata, however it is fairly extensive and therefore it's encouraged to consult the <a href="https://www.gnu.org/software/findutils/manual/find.pdf#Format%20Directives">official documentation</a> for a complete list of details
+        </blockquote>
 </details>
 
 #### Arbitrary Command Execution on Files
@@ -591,93 +593,98 @@ By default, if no action is explicitly given, <code>-print</code> is implemented
 <details>
     <summary>Secure Command Execution</summary>
     <br>
-    <details>
-        <summary>Process Files One at a Time</summary>
-        <br>
-        <blockquote>
-            $\color{cyan}{\text{-execdir \emph{command} ';'}}$
+    <blockquote>
+    <br>
+        <details>
+            <summary>Process Files One at a Time</summary>
             <br>
-            Parses all arguments between <code>-execdir</code> and the first ';' (semicolon) as a single command. Filenames passed into the command can be expanded using the <code>{}</code> construction, where the two curly brackets are replaced with the current file's basename (not the relative path name) during execution. Each filename is prepended with './' and therefore a file called <code>temp.txt</code> found in directory <code>foo/bar/</code> will be evaluated as <code>./temp.txt</code>. However as './' represent special characters in the shell, the whole construction must be quoted as <code>'./'</code> to prevent their expansion by the shell. Likewise the terminal semicolon should be sanitised, which is why it is quoted in the above construction.
-            <br>
-            <br>
-            When using <code>-execdir</code>, you must ensure that the PATH variable contains only absolute directory names, and that there is no empty directory element either at the beginning, end or in the middle of the list.
-            <br>
-            <br>
-            Additionally, passing untrusted data (such as file names) to commands (i.e., 'sh') which interpret arguments as commands to be further interpreted should be avoided wherever possible. If untrusted data must be passed along, then it can be more safely handled using <code>-execdir sh -c 'command "$@"' sh {} ';'</code> where the arguments are expanded using the "$@" construct.
-            <details>
-                <summary>Execute with Confirmation</summary>
+            <blockquote>
+                $\color{cyan}{\text{-execdir \emph{command} ';'}}$
                 <br>
-                <blockquote>
-                    $\color{cyan}{\text{-okdir \emph{command} ';'}}$
+                Parses all arguments between <code>-execdir</code> and the first ';' (semicolon) as a single command. Filenames passed into the command can be expanded using the <code>{}</code> construction, where the two curly brackets are replaced with the current file's basename (not the relative path name) during execution. Each filename is prepended with './' and therefore a file called <code>temp.txt</code> found in directory <code>foo/bar/</code> will be evaluated as <code>./temp.txt</code>. However as './' represent special characters in the shell, the whole construction must be quoted as <code>'./'</code> to prevent their expansion by the shell. Likewise the terminal semicolon should be sanitised, which is why it is quoted in the above construction.
+                <br>
+                <br>
+                When using <code>-execdir</code>, you must ensure that the PATH variable contains only absolute directory names, and that there is no empty directory element either at the beginning, end or in the middle of the list.
+                <br>
+                <br>
+                Additionally, passing untrusted data (such as file names) to commands (i.e., 'sh') which interpret arguments as commands to be further interpreted should be avoided wherever possible. If untrusted data must be passed along, then it can be more safely handled using <code>-execdir sh -c 'command "$@"' sh {} ';'</code> where the arguments are expanded using the "$@" construct.
+                <details>
+                    <summary>Execute with Confirmation</summary>
                     <br>
-                    Execute in the same manner as <code>-execdir</code>, except that the user is queried first to confirm before execution can proceed.
-                    <br>
-                    <br>
-                    Cannot be implemented together with the <code>-files0-from</code> option.
-                </blockquote>
-            </details>
-        </blockquote>
-    </details>
-    <details>
-        <summary>Process Multiple Files at Once</summary>
-        <br>
-        <blockquote>
-            $\color{cyan}{\text{-execdir \emph{command} '{}' +}}$
+                    <blockquote>
+                        $\color{cyan}{\text{-okdir \emph{command} ';'}}$
+                        <br>
+                        Execute in the same manner as <code>-execdir</code>, except that the user is queried first to confirm before execution can proceed.
+                        <br>
+                        <br>
+                        Cannot be implemented together with the <code>-files0-from</code> option.
+                    </blockquote>
+                </details>
+            </blockquote>
+        </details>
+        <details>
+            <summary>Process Multiple Files at Once</summary>
             <br>
-            Similar execution as the command to process files one at a time, except that only one <code>'{}'</code> construct is allowed and it must appear at the end, immediately before the '+'. 
-            <br>
-            <br>
-            As in the sequential file processing command, each file name is prepended with './', in contrast however, the <code>'{}' +</code> construct expands to the full list of matching file names and the whole expression is evaluated as one entire command. When multiple files can be processed at once this provides much greater efficiency over the serial <code>-execdir</code> as the command is called only once rather than repeatedly for each file.
-        </blockquote>
-    </details>
+            <blockquote>
+                $\color{cyan}{\text{-execdir \emph{command} '{}' +}}$
+                <br>
+                Similar execution as the command to process files one at a time, except that only one <code>'{}'</code> construct is allowed and it must appear at the end, immediately before the '+'. 
+                <br>
+                <br>
+                As in the sequential file processing command, each file name is prepended with './', in contrast however, the <code>'{}' +</code> construct expands to the full list of matching file names and the whole expression is evaluated as one entire command. When multiple files can be processed at once this provides much greater efficiency over the serial <code>-execdir</code> as the command is called only once rather than repeatedly for each file.
+            </blockquote>
+        </details>
+    </blockquote>
 </details>
 <details>
     <summary>Insecure Command Execution</summary>
     <br>
-    <details>
-        <summary>Process Files One at a Time</summary>
-        <br>
-        <blockquote>
-            $\color{cyan}{\text{-exec \emph{command} ';'}}$
+    <blockquote>
+    <br>
+        <details>
+            <summary>Process Files One at a Time</summary>
             <br>
-            Parses all arguments between <code>-exec</code> and the first ';' (semicolon) as a single command. Filenames passed into the command can be expanded using the <code>{}</code> construction. In contrast to the secure <code>-execdir</code> command, the '{}' construct expands to the relative pathname rooted in the directory from where <code>find</code> was called. Each file name is <b>not</b> prepended with './' and therefore a file called <code>temp.txt</code> found in directory <code>foo/bar/</code> will be evaluated as <code>foo/bar/temp.txt</code>. 
-            <br>
-            <br>
-            This presents security concerns as a file name beginning with a '-' will be interpreted as a command option and not a file. Alternatively, if in the time between when a file is first matched and the command is executed, the file is changed to a symbolic link then the command may be executed in a location that a user did not intend. Both of these concerns highlight why <code>-execdir</code> should be used over <code>-exec</code> wherever possible.
-            <br>
-            <details>
-                <summary>Execute with Confirmation</summary>
+            <blockquote>
+                $\color{cyan}{\text{-exec \emph{command} ';'}}$
                 <br>
-                <blockquote>
-                    $\color{cyan}{\text{-ok \emph{command} ';'}}$
+                Parses all arguments between <code>-exec</code> and the first ';' (semicolon) as a single command. Filenames passed into the command can be expanded using the <code>{}</code> construction. In contrast to the secure <code>-execdir</code> command, the '{}' construct expands to the relative pathname rooted in the directory from where <code>find</code> was called. Each file name is <b>not</b> prepended with './' and therefore a file called <code>temp.txt</code> found in directory <code>foo/bar/</code> will be evaluated as <code>foo/bar/temp.txt</code>. 
+                <br>
+                <br>
+                This presents security concerns as a file name beginning with a '-' will be interpreted as a command option and not a file. Alternatively, if in the time between when a file is first matched and the command is executed, the file is changed to a symbolic link then the command may be executed in a location that a user did not intend. Both of these concerns highlight why <code>-execdir</code> should be used over <code>-exec</code> wherever possible.
+                <br>
+                <details>
+                    <summary>Execute with Confirmation</summary>
                     <br>
-                    Execute in the same manner as <code>-exec</code>, except that the user is queried first to confirm before execution can proceed.
-                    <br>
-                    <br>
-                    Cannot be implemented together with the <code>-files0-from</code> option.
-                </blockquote>
-            </details>
-        </blockquote>
-    </details>
-    <details>
-        <summary>Process Multiple Files at Once</summary>
-        <br>
-        <blockquote>
-            $\color{cyan}{\text{-exec \emph{command} '{}' +}}$
+                    <blockquote>
+                        $\color{cyan}{\text{-ok \emph{command} ';'}}$
+                        <br>
+                        Execute in the same manner as <code>-exec</code>, except that the user is queried first to confirm before execution can proceed.
+                        <br>
+                        <br>
+                        Cannot be implemented together with the <code>-files0-from</code> option.
+                    </blockquote>
+                </details>
+            </blockquote>
+        </details>
+        <details>
+            <summary>Process Multiple Files at Once</summary>
             <br>
-            Similar execution as the command to process files one at a time, except that only one <code>'{}'</code> construct is allowed and it must appear at the end, immediately before the '+'. 
-            <br>
-            <br>
-            In contrast to sequential execution, the <code>'{}' +</code> construct expands to the full list of matching relative path names beginning in one of the starting directories and the whole expression is evaluated as one entire command.
-        </blockquote>
-    </details>
+            <blockquote>
+                $\color{cyan}{\text{-exec \emph{command} '{}' +}}$
+                <br>
+                Similar execution as the command to process files one at a time, except that only one <code>'{}'</code> construct is allowed and it must appear at the end, immediately before the '+'. 
+                <br>
+                <br>
+                In contrast to sequential execution, the <code>'{}' +</code> construct expands to the full list of matching relative path names beginning in one of the starting directories and the whole expression is evaluated as one entire command.
+            </blockquote>
+        </details>
+    </blockquote>
 </details>
 
 #### Delete
 
 <details>
     <summary>Deleting Matched Files</summary>
-    <br>
     <blockquote>
         $\color{cyan}{\text{-delete}}$
         <br>
