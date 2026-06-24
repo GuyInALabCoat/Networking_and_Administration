@@ -592,6 +592,7 @@ By default, if no action is explicitly given, <code>-print</code> is implemented
 
 <details>
     <summary>Secure Command Execution</summary>
+    <br>
     <blockquote>
         <details>
             <summary>Process Files One at a Time</summary>
@@ -606,6 +607,7 @@ By default, if no action is explicitly given, <code>-print</code> is implemented
                 <br>
                 <br>
                 Additionally, passing untrusted data (such as file names) to commands (i.e., 'sh') which interpret arguments as commands to be further interpreted should be avoided wherever possible. If untrusted data must be passed along, then it can be more safely handled using <code>-execdir sh -c 'command "$@"' sh {} ';'</code> where the arguments are expanded using the "$@" construct.
+                <br>
                 <br>
                 <details>
                     <summary>Execute with Confirmation</summary>
@@ -636,6 +638,7 @@ By default, if no action is explicitly given, <code>-print</code> is implemented
 </details>
 <details>
     <summary>Insecure Command Execution</summary>
+    <br>
     <blockquote>
         <details>
             <summary>Process Files One at a Time</summary>
